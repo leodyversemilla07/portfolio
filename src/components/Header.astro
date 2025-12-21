@@ -1,0 +1,37 @@
+---
+import { ModeToggle } from './ModeToggle.tsx';
+import { MobileMenu } from './MobileMenu.tsx';
+import { Terminal } from 'lucide-react';
+import { PERSONAL_INFO } from '../consts';
+
+const navItems = ['work', 'skills', 'about', 'contact'];
+---
+
+<nav class="fixed top-0 w-full z-50 bg-neutral-50/90 dark:bg-neutral-900/90 backdrop-blur-sm border-b border-neutral-200 dark:border-neutral-800">
+  <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+    <div class="font-bold text-lg tracking-tight flex items-center gap-2">
+      <Terminal size={20} client:load className="text-emerald-600 dark:text-emerald-400" />
+      <span>{PERSONAL_INFO.name}</span>
+    </div>
+
+    <div class="flex items-center gap-6">
+      {/* Desktop Nav */}
+      <div class="hidden sm:flex gap-6 text-sm font-medium text-neutral-500 dark:text-neutral-400">
+        {navItems.map((item) => (
+          <a
+            href={`#${item}`}
+            class="hover:text-neutral-900 dark:hover:text-neutral-100 capitalize transition-colors"
+          >
+            {item}
+          </a>
+        ))}
+      </div>
+      
+      <div class="flex items-center gap-2">
+        <ModeToggle client:load />
+        {/* Mobile Nav */}
+        <MobileMenu items={navItems} client:load />
+      </div>
+    </div>
+  </div>
+</nav>

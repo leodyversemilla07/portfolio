@@ -1,0 +1,51 @@
+---
+import { Github, ExternalLink, ArrowRight } from 'lucide-react';
+import Section from '../Section.astro';
+import { PROJECTS, PERSONAL_INFO } from '../../consts';
+---
+
+<Section title="Selected Work" id="work">
+  <div class="space-y-12">
+    {PROJECTS.map((project) => (
+      <div class="group">
+        <div class="flex justify-between items-baseline mb-2">
+          <h3 class="text-xl font-medium text-neutral-900 dark:text-neutral-100 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+            {project.title}
+          </h3>
+          <div class="flex space-x-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            <a 
+              href={project.github} 
+              class="text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100"
+              aria-label={`View ${project.title} source code on GitHub`}
+            >
+              <Github size={18} />
+            </a>
+            <a 
+              href={project.link} 
+              class="text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100"
+              aria-label={`Visit ${project.title} live project`}
+            >
+              <ExternalLink size={18} />
+            </a>
+          </div>
+        </div>
+        <p class="text-neutral-600 dark:text-neutral-400 leading-relaxed mb-4 max-w-2xl">
+          {project.description}
+        </p>
+        <div class="flex flex-wrap gap-2">
+          {project.tech.map((t) => (
+            <span class="text-xs font-mono px-2 py-1 bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 rounded-sm">
+              {t}
+            </span>
+          ))}
+        </div>
+      </div>
+    ))}
+    
+    <div class="mt-12">
+       <a href={PERSONAL_INFO.github} class="inline-flex items-center gap-2 text-sm font-medium text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors border-b border-transparent hover:border-neutral-500">
+          View Full Project Archive <ArrowRight size={14} />
+       </a>
+    </div>
+  </div>
+</Section>
