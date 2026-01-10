@@ -4,6 +4,7 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Hero from '../components/sections/Hero.astro';
+import Achievements from '../components/sections/Achievements.astro';
 import Work from '../components/sections/Work.astro';
 import Skills from '../components/sections/Skills.astro';
 import About from '../components/sections/About.astro';
@@ -22,9 +23,10 @@ import { PERSONAL_INFO } from '../consts';
 		<Header />
 		<div class="max-w-5xl mx-auto px-6 pt-32 pb-20">
 			<Hero />
-			<Work />
-			<Skills />
 			<About />
+			<Skills />
+			<Work />
+			<Achievements />
 			<Contact />
 		</div>
 		<Footer />

@@ -1,46 +1,69 @@
-# Astro Starter Kit: Basics
+# Personal Portfolio
 
-```sh
-npm create astro@latest -- --template basics
-```
+A modern, high-performance personal portfolio website showcasing technical expertise and projects. Built with a focus on speed, accessibility, and clean design.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 🛠️ Tech Stack
 
-## 🚀 Project Structure
+- **Framework:** [Astro 5](https://astro.build/) - For high-performance static site generation and content layer.
+- **UI Library:** [React 19](https://react.dev/) - Utilized for interactive components.
+- **Styling:** [Tailwind CSS 4](https://tailwindcss.com/) - Using the latest CSS-first configuration and `@theme` engine.
+- **Components:** [shadcn/ui](https://ui.shadcn.com/) - Accessible, reusable component primitives.
+- **Icons:** [Lucide React](https://lucide.dev/) - Beautiful & consistent icons.
 
-Inside of your Astro project, you'll see the following folders and files:
+## ✨ Features
+
+- 🚀 **Blazing Fast:** Static site generation ensures optimal load times and SEO.
+- 🌗 **Dark Mode:** Built-in theme switcher supporting light, dark, and system preferences.
+- 📱 **Fully Responsive:** Optimized for all device sizes, from mobile to desktop.
+- 🎨 **Modern Design:** Clean aesthetic using OKLCH-based color systems.
+- ♿ **Accessible:** Built on Radix UI primitives for WAI-ARIA compliance.
+
+## 📂 Project Structure
 
 ```text
 /
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+├── public/              # Static assets (resume, favicon, etc.)
+├── src/
+│   ├── assets/          # Project assets (images, svgs)
+│   ├── components/      # UI components
+│   │   ├── sections/    # Page sections (Hero, About, Work, etc.)
+│   │   ├── ui/          # shadcn/ui primitives
+│   │   └── ...          # Global components (Header, Footer, etc.)
+│   ├── layouts/         # Page layouts
+│   ├── lib/             # Utility functions
+│   ├── pages/           # Astro routes
+│   └── styles/          # Global styles (Tailwind v4)
+├── astro.config.mjs     # Astro configuration
+└── package.json         # Project dependencies
 ```
-
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
 
 ## 🧞 Commands
 
-All commands are run from the root of the project, from a terminal:
+All commands are run from the root of the project:
 
 | Command                   | Action                                           |
 | :------------------------ | :----------------------------------------------- |
 | `npm install`             | Installs dependencies                            |
 | `npm run dev`             | Starts local dev server at `localhost:4321`      |
 | `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+| `npm run preview`         | Preview your build locally                       |
 
-## 👀 Want to learn more?
+## 🚀 Getting Started
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/leodyversemilla07/portfolio.git
+    cd portfolio
+    ```
+
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+
+3.  **Start the development server:**
+    ```bash
+    npm run dev
+    ```
+
+4.  Open [http://localhost:4321](http://localhost:4321) in your browser.

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <rect width="1200" height="630" fill="#fafafa"/>
+  <defs>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Left accent bar -->
+  <rect x="0" y="0" width="8" height="630" fill="url(#accent)"/>
+  
+  <!-- Decorative circle -->
+  <circle cx="1100" cy="100" r="300" fill="#10b981" fill-opacity="0.1"/>
+  
+  <!-- Terminal icon -->
+  <rect x="80" y="80" width="60" height="60" rx="12" fill="#10b981" fill-opacity="0.15"/>
+  <rect x="95" y="95" width="30" height="30" rx="6" fill="#10b981"/>
+  
+  <!-- Main text -->
+  <text x="80" y="220" font-family="system-ui, -apple-system, sans-serif" font-size="64" font-weight="700" fill="#171717">Leodyver S. Semilla</text>
+  
+  <!-- Role -->
+  <text x="80" y="290" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="500" fill="#525252">Aspiring Software Engineer</text>
+  
+  <!-- Tagline -->
+  <text x="80" y="350" font-family="system-ui, -apple-system, sans-serif" font-size="24" fill="#737373">Building secure, socially relevant software solutions.</text>
+  
+  <!-- Skills tags -->
+  <rect x="80" y="400" width="120" height="40" rx="8" fill="#10b981" fill-opacity="0.15"/>
+  <text x="140" y="427" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="600" fill="#059669" text-anchor="middle">Full-Stack</text>
+  
+  <rect x="220" y="400" width="140" height="40" rx="8" fill="#10b981" fill-opacity="0.15"/>
+  <text x="290" y="427" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="600" fill="#059669" text-anchor="middle">Blockchain</text>
+  
+  <rect x="380" y="400" width="120" height="40" rx="8" fill="#10b981" fill-opacity="0.15"/>
+  <text x="440" y="427" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="600" fill="#059669" text-anchor="middle">React</text>
+  
+  <!-- Bottom bar -->
+  <rect x="80" y="530" width="200" height="4" rx="2" fill="url(#accent)"/>
+  
+  <!-- URL -->
+  <text x="80" y="590" font-family="system-ui, -apple-system, sans-serif" font-size="20" fill="#a3a3a3">leodyver-portfolio.com</text>
+</svg>

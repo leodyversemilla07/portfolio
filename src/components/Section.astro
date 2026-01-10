@@ -8,14 +8,14 @@ interface Props {
 const { id, title, className = "" } = Astro.props;
 ---
 
-<section id={id} class={`py-16 md:py-24 border-t border-neutral-200 dark:border-neutral-800 transition-colors duration-300 ${className}`}>
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-    <div class="md:col-span-1">
-      <h2 class="text-sm font-bold uppercase tracking-widest text-neutral-500 dark:text-neutral-400 sticky top-24">
+<section id={id} class={`py-12 sm:py-16 md:py-24 border-t border-neutral-200 dark:border-neutral-800 transition-colors duration-300 ${className}`}>
+  <div class="grid grid-cols-1 sm:grid-cols-4 gap-6 sm:gap-8">
+    <div class="sm:col-span-1">
+      <h2 class="text-xs sm:text-sm font-bold uppercase tracking-widest text-neutral-500 dark:text-neutral-400 sticky top-20 sm:top-24">
         {title}
       </h2>
     </div>
-    <div class="md:col-span-3">
+    <div class="sm:col-span-3">
       <slot />
     </div>
   </div>

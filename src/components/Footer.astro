@@ -6,29 +6,29 @@ const currentYear = new Date().getFullYear();
 ---
 
 <footer class="bg-neutral-50 dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-800 transition-colors duration-300">
-  <div class="max-w-5xl mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center gap-6">
-    <div class="text-neutral-500 dark:text-neutral-400 text-sm">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6">
+    <div class="text-neutral-500 dark:text-neutral-400 text-xs sm:text-sm text-center sm:text-left">
       &copy; {currentYear} {PERSONAL_INFO.name}. All rights reserved.
     </div>
     
-    <div class="flex items-center gap-6">
+    <div class="flex items-center gap-4 sm:gap-6">
       <a 
         href={PERSONAL_INFO.github} 
         target="_blank" 
         rel="noopener noreferrer"
-        class="text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+        class="text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors p-2"
         aria-label="GitHub"
       >
-        <Github size={20} />
+        <Github size={18} />
       </a>
       <a 
         href={PERSONAL_INFO.linkedin} 
         target="_blank" 
         rel="noopener noreferrer"
-        class="text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+        class="text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors p-2"
         aria-label="LinkedIn"
       >
-        <Linkedin size={20} />
+        <Linkedin size={18} />
       </a>
     </div>
   </div>
