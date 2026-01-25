@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://leodyver-portfolio.com/sitemap-index.xml
+Sitemap: https://http://leodyver-dev.vercel.app/sitemap-index.xml

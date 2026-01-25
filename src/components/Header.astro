@@ -1,32 +1,47 @@
 ---
-import { ModeToggle } from './ModeToggle.tsx';
-import { MobileMenu } from './MobileMenu.tsx';
-import { Terminal } from 'lucide-react';
-import { PERSONAL_INFO } from '../consts';
+import { ModeToggle } from "./ModeToggle.tsx";
+import { MobileMenu } from "./MobileMenu.tsx";
+import { Terminal } from "lucide-react";
+import { PERSONAL_INFO } from "../consts";
 
-const navItems = ['about', 'skills', 'work', 'achievements', 'contact'];
+const navItems = ["support"];
 ---
 
-<nav class="fixed top-0 w-full z-50 bg-neutral-50/90 dark:bg-neutral-900/90 backdrop-blur-sm border-b border-neutral-200 dark:border-neutral-800">
-  <div class="max-w-5xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between">
-    <div class="font-bold text-sm sm:text-lg tracking-tight flex items-center gap-2">
-      <Terminal size={16} sm:size={20} client:load className="text-emerald-600 dark:text-emerald-400" />
-      <span class="truncate max-w-[120px] sm:max-w-none">{PERSONAL_INFO.name}</span>
+<nav
+  class="fixed top-0 w-full z-50 bg-neutral-50/90 dark:bg-neutral-900/90 backdrop-blur-sm border-b border-neutral-200 dark:border-neutral-800"
+>
+  <div
+    class="max-w-5xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between"
+  >
+    <div
+      class="font-bold text-sm sm:text-lg tracking-tight flex items-center gap-2"
+    >
+      <Terminal
+        client:load
+        className="size-4 sm:size-5 text-emerald-600 dark:text-emerald-400"
+      />
+      <span class="truncate max-w-[120px] sm:max-w-none"
+        >{PERSONAL_INFO.name}</span
+      >
     </div>
 
     <div class="flex items-center gap-4 sm:gap-6">
       {/* Desktop Nav */}
-      <div class="hidden sm:flex gap-4 lg:gap-6 text-xs lg:text-sm font-medium text-neutral-500 dark:text-neutral-400">
-        {navItems.map((item) => (
-          <a
-            href={`#${item}`}
-            class="hover:text-neutral-900 dark:hover:text-neutral-100 capitalize transition-colors"
-          >
-            {item}
-          </a>
-        ))}
+      <div
+        class="hidden sm:flex gap-4 lg:gap-6 text-xs lg:text-sm font-medium text-neutral-500 dark:text-neutral-400"
+      >
+        {
+          navItems.map((item) => (
+            <a
+              href={item === "support" ? "/support" : `#${item}`}
+              class="hover:text-neutral-900 dark:hover:text-neutral-100 capitalize transition-colors"
+            >
+              {item}
+            </a>
+          ))
+        }
       </div>
-      
+
       <div class="flex items-center gap-1 sm:gap-2">
         <ModeToggle client:load />
         {/* Mobile Nav */}
