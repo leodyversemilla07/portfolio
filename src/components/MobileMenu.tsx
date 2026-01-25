@@ -2,35 +2,42 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Button } from './ui/button';
 
-interface MobileMenuProps {
-  items: string[];
+interface NavItem {
+  label: string;
+  href: string;
 }
 
-export function MobileMenu({ items }: MobileMenuProps) {
+interface MobileMenuProps {
+  items: NavItem[];
+  currentPath: string;
+}
+
+export function MobileMenu({ items, currentPath }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
+  const isActive = (href: string) => {
+    if (href === '/') return currentPath === '/';
+    return currentPath.startsWith(href);
+  };
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
-
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setIsOpen(false);
       }
     };
-
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
       document.addEventListener('keydown', handleEscape);
       document.body.style.overflow = 'hidden';
     }
-
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('keydown', handleEscape);
@@ -49,12 +56,15 @@ export function MobileMenu({ items }: MobileMenuProps) {
           <div className="flex flex-col">
             {items.map((item) => (
               <a
-                key={item}
-                href={`#${item}`}
-                className="px-4 py-2.5 text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-neutral-100 dark:hover:bg-neutral-700/50 capitalize transition-colors"
+                key={item.label}
+                href={item.href}
+                className={`px-4 py-2.5 text-sm font-medium capitalize transition-colors ${isActive(item.href)
+                  ? 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20'
+                  : 'text-neutral-600 dark:text-neutral-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-neutral-100 dark:hover:bg-neutral-700/50'
+                  }`}
                 onClick={() => setIsOpen(false)}
               >
-                {item}
+                {item.label}
               </a>
             ))}
           </div>

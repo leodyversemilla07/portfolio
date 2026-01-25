@@ -4,7 +4,19 @@ import { MobileMenu } from "./MobileMenu.tsx";
 import { Terminal } from "lucide-react";
 import { PERSONAL_INFO } from "../consts";
 
-const navItems = ["support"];
+const navItems = [
+  { label: "Home", href: "/" },
+  { label: "Contact", href: "/contact" },
+  { label: "Support", href: "/support" },
+];
+
+const pathname = Astro.url.pathname;
+const isActive = (href: string) => {
+  if (href === "/") return pathname === "/";
+  return pathname.startsWith(href);
+};
+
+import { cn } from "../lib/utils";
 ---
 
 <nav
@@ -13,8 +25,9 @@ const navItems = ["support"];
   <div
     class="max-w-5xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between"
   >
-    <div
-      class="font-bold text-sm sm:text-lg tracking-tight flex items-center gap-2"
+    <a
+      href="/"
+      class="font-bold text-sm sm:text-lg tracking-tight flex items-center gap-2 hover:opacity-80 transition-opacity"
     >
       <Terminal
         client:load
@@ -23,7 +36,7 @@ const navItems = ["support"];
       <span class="truncate max-w-[120px] sm:max-w-none"
         >{PERSONAL_INFO.name}</span
       >
-    </div>
+    </a>
 
     <div class="flex items-center gap-4 sm:gap-6">
       {/* Desktop Nav */}
@@ -33,10 +46,15 @@ const navItems = ["support"];
         {
           navItems.map((item) => (
             <a
-              href={item === "support" ? "/support" : `#${item}`}
-              class="hover:text-neutral-900 dark:hover:text-neutral-100 capitalize transition-colors"
+              href={item.href}
+              class={cn(
+                "capitalize transition-colors",
+                isActive(item.href)
+                  ? "text-emerald-600 dark:text-emerald-400 font-semibold"
+                  : "hover:text-neutral-900 dark:hover:text-neutral-100",
+              )}
             >
-              {item}
+              {item.label}
             </a>
           ))
         }
@@ -45,7 +63,7 @@ const navItems = ["support"];
       <div class="flex items-center gap-1 sm:gap-2">
         <ModeToggle client:load />
         {/* Mobile Nav */}
-        <MobileMenu items={navItems} client:load />
+        <MobileMenu items={navItems} currentPath={pathname} client:load />
       </div>
     </div>
   </div>
