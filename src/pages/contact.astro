@@ -1,9 +1,10 @@
 ---
 import "../styles/global.css";
-import Layout from "../layouts/Layout.astro";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
-import { ContactForm } from "../components/ContactForm.tsx";
+import Layout from "../layouts/layout.astro";
+import Header from "../components/header.astro";
+import Footer from "../components/footer.astro";
+import { ContactFormIsland } from "../components/contact-form-island.tsx";
+import { ErrorBoundary } from "../components/error-boundary.tsx";
 import { PERSONAL_INFO } from "../consts";
 import { Mail } from "lucide-react";
 
@@ -50,7 +51,7 @@ const WEB3FORMS_ACCESS_KEY =
             <div
                 class="bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700 p-6 sm:p-8 shadow-sm"
             >
-                <ContactForm client:load accessKey={WEB3FORMS_ACCESS_KEY} />
+                <ContactFormIsland client:visible accessKey={WEB3FORMS_ACCESS_KEY} />
             </div>
         </div>
         <Footer />

@@ -1,4 +1,3 @@
-// @ts-check
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@astrojs/react';
@@ -7,11 +6,11 @@ import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://leodyver-dev.vercel.app/',
+  site: 'https://leodyver.me',
   adapter: vercel(),
   integrations: [react(), sitemap()],
   vite: {
-    // @ts-expect-error - Vite plugin type mismatch between @tailwindcss/vite and Astro's bundled Vite
+    // @ts-expect-error - @tailwindcss/vite and Astro bundle different Vite versions internally
     plugins: [tailwindcss()],
   },
 });

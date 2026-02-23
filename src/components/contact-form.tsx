@@ -1,42 +1,55 @@
-import { useState } from 'react';
-import type { FormEvent } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { Loader2, Send, CheckCircle } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { useState } from 'react';
+
+const schema = z.object({
+    name: z.string().min(2, 'Name must be at least 2 characters'),
+    email: z.string().email('Please enter a valid email address'),
+    message: z.string().min(10, 'Message must be at least 10 characters'),
+});
+
+type FormValues = z.infer<typeof schema>;
 
 interface ContactFormProps {
     accessKey: string;
 }
 
 export function ContactForm({ accessKey }: ContactFormProps) {
-    const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+    const [serverError, setServerError] = useState<string | null>(null);
 
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-        setError(null);
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors, isSubmitting },
+    } = useForm<FormValues>({ resolver: zodResolver(schema) });
 
-        const formData = new FormData(e.currentTarget);
+    const onSubmit = async (values: FormValues) => {
+        setServerError(null);
+        const formData = new FormData();
+        formData.append('access_key', accessKey);
+        formData.append('name', values.name);
+        formData.append('email', values.email);
+        formData.append('message', values.message);
 
         try {
             const response = await fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
                 body: formData,
             });
-
             const data = await response.json();
-
             if (data.success) {
                 setIsSuccess(true);
-                (e.target as HTMLFormElement).reset();
+                reset();
             } else {
                 throw new Error(data.message || 'Failed to send message');
             }
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Something went wrong');
-        } finally {
-            setIsSubmitting(false);
+            setServerError(err instanceof Error ? err.message : 'Something went wrong');
         }
     };
 
@@ -63,90 +76,86 @@ export function ContactForm({ accessKey }: ContactFormProps) {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Web3Forms Access Key - Hidden */}
-            <input
-                type="hidden"
-                name="access_key"
-                value={accessKey}
-            />
-
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
             {/* Name Field */}
             <div>
-                <label
-                    htmlFor="name"
-                    className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2"
-                >
+                <label htmlFor="name" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
                     Name
                 </label>
                 <input
                     type="text"
                     id="name"
-                    name="name"
-                    required
+                    {...register('name')}
                     className={cn(
                         'w-full px-4 py-3 rounded-lg border bg-white dark:bg-neutral-900',
                         'text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400',
-                        'border-neutral-200 dark:border-neutral-700',
                         'focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent',
-                        'transition-all duration-200'
+                        'transition-all duration-200',
+                        errors.name
+                            ? 'border-red-400 dark:border-red-600'
+                            : 'border-neutral-200 dark:border-neutral-700'
                     )}
                     placeholder="Your name"
                 />
+                {errors.name && (
+                    <p className="mt-1 text-xs text-red-500 dark:text-red-400">{errors.name.message}</p>
+                )}
             </div>
 
             {/* Email Field */}
             <div>
-                <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2"
-                >
+                <label htmlFor="email" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
                     Email
                 </label>
                 <input
                     type="email"
                     id="email"
-                    name="email"
-                    required
+                    {...register('email')}
                     className={cn(
                         'w-full px-4 py-3 rounded-lg border bg-white dark:bg-neutral-900',
                         'text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400',
-                        'border-neutral-200 dark:border-neutral-700',
                         'focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent',
-                        'transition-all duration-200'
+                        'transition-all duration-200',
+                        errors.email
+                            ? 'border-red-400 dark:border-red-600'
+                            : 'border-neutral-200 dark:border-neutral-700'
                     )}
                     placeholder="your@email.com"
                 />
+                {errors.email && (
+                    <p className="mt-1 text-xs text-red-500 dark:text-red-400">{errors.email.message}</p>
+                )}
             </div>
 
             {/* Message Field */}
             <div>
-                <label
-                    htmlFor="message"
-                    className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2"
-                >
+                <label htmlFor="message" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
                     Message
                 </label>
                 <textarea
                     id="message"
-                    name="message"
-                    required
                     rows={5}
+                    {...register('message')}
                     className={cn(
                         'w-full px-4 py-3 rounded-lg border bg-white dark:bg-neutral-900',
                         'text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400',
-                        'border-neutral-200 dark:border-neutral-700',
                         'focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent',
-                        'transition-all duration-200 resize-none'
+                        'transition-all duration-200 resize-none',
+                        errors.message
+                            ? 'border-red-400 dark:border-red-600'
+                            : 'border-neutral-200 dark:border-neutral-700'
                     )}
                     placeholder="Your message..."
                 />
+                {errors.message && (
+                    <p className="mt-1 text-xs text-red-500 dark:text-red-400">{errors.message.message}</p>
+                )}
             </div>
 
-            {/* Error Message */}
-            {error && (
+            {/* Server Error */}
+            {serverError && (
                 <div className="p-3 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm">
-                    {error}
+                    {serverError}
                 </div>
             )}
 
