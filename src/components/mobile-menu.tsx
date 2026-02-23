@@ -31,7 +31,7 @@ export function MobileMenu({ items, currentPath }: MobileMenuProps) {
             <Menu className="h-4 w-4" />
           </Button>
         </SheetTrigger>
-        <SheetContent side="right" className="w-64 bg-neutral-50 dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 p-0">
+        <SheetContent side="right" aria-describedby={undefined} className="w-64 bg-neutral-50 dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 p-0">
           <SheetHeader className="px-6 py-5 border-b border-neutral-200 dark:border-neutral-800">
             <SheetTitle className="text-left text-sm font-bold text-neutral-900 dark:text-neutral-100">
               {PERSONAL_INFO.name}
