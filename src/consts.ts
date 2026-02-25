@@ -13,6 +13,7 @@ export const PERSONAL_INFO = {
 
 export const SKILLS = [
   "PHP & Laravel",
+  "MySQL",
   "TypeScript & React",
   "Node.js",
   "Inertia.js",
@@ -34,7 +35,7 @@ export const PROJECTS = [
   {
     title: "SaliksikHub",
     description: "Full Stack Developer for a Research Journal Management System. Features role-based access control and structured academic workflow management.",
-    tech: ["PHP", "Laravel", "Tailwind CSS"],
+    tech: ["PHP", "Laravel", "MySQL", "Tailwind CSS"],
     link: "https://github.com/leodyversemilla07",
     github: "https://github.com/leodyversemilla07"
   }
@@ -43,20 +44,8 @@ export const PROJECTS = [
 export const ACHIEVEMENTS = [
   {
     title: "Hack4Gov 3 Regional Highest Scorer & National Qualifier",
-    description: "Achieved highest regional score and qualified nationally in this government-focused cybersecurity competition. Demonstrated expertise in cryptography and web exploitation.",
+    description: "Achieved highest regional score and qualified nationally in this government-focused cybersecurity competition. Demonstrated expertise across diverse cybersecurity domains and secure software practices.",
     type: "competition",
     date: "2024"
-  },
-  {
-    title: "Municipal Scholar",
-    description: "Recipient of the Municipal Scholar scholarship at Gloria, recognizing academic excellence and potential in technology.",
-    type: "scholarship",
-    date: "2022 - Present"
-  },
-  {
-    title: "Dean's List",
-    description: "Consistently maintained academic excellence throughout BSIT program at Mindoro State University.",
-    type: "academic",
-    date: "2022 - Present"
   }
 ];

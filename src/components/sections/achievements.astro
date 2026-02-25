@@ -21,7 +21,7 @@ const badgeColors = {
     {ACHIEVEMENTS.map((achievement) => {
       const Icon = iconMap[achievement.type as keyof typeof iconMap];
       return (
-        <div class="flex items-start gap-3 p-3 sm:p-4 bg-white dark:bg-neutral-800 rounded-lg border border-neutral-200 dark:border-neutral-700 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-200">
+        <div class="group flex items-start gap-3 p-3 sm:p-4 bg-white dark:bg-neutral-800 rounded-lg border border-neutral-200 dark:border-neutral-700 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-200">
           <div class={`p-2 rounded-lg border shrink-0 ${badgeColors[achievement.type as keyof typeof badgeColors]}`}>
             <Icon size={18} />
           </div>
@@ -34,10 +34,10 @@ const badgeColors = {
                 {achievement.date}
               </span>
             </div>
-            <h3 class="text-sm sm:text-base font-semibold text-neutral-900 dark:text-neutral-100 mb-0.5 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors line-clamp-2">
+            <h3 class="text-sm sm:text-base font-semibold text-neutral-900 dark:text-neutral-100 mb-0.5 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
               {achievement.title}
             </h3>
-            <p class="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed line-clamp-2 sm:line-clamp-3">
+            <p class="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
               {achievement.description}
             </p>
           </div>
