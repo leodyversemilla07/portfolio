@@ -30,7 +30,7 @@ export function WorkFilter({ projects, githubUrl }: Props) {
           className={cn(
             'text-xs font-mono px-3 py-1.5 rounded-sm border transition-colors duration-150',
             active === null
-              ? 'bg-emerald-600 border-emerald-600 text-white'
+              ? 'bg-emerald-700 border-emerald-700 text-white'
               : 'bg-neutral-100 dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700 text-neutral-600 dark:text-neutral-300 hover:border-emerald-400'
           )}
         >
@@ -43,7 +43,7 @@ export function WorkFilter({ projects, githubUrl }: Props) {
             className={cn(
               'text-xs font-mono px-3 py-1.5 rounded-sm border transition-colors duration-150',
               active === tag
-                ? 'bg-emerald-600 border-emerald-600 text-white'
+                ? 'bg-emerald-700 border-emerald-700 text-white'
                 : 'bg-neutral-100 dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700 text-neutral-600 dark:text-neutral-300 hover:border-emerald-400'
             )}
           >
@@ -105,7 +105,7 @@ export function WorkFilter({ projects, githubUrl }: Props) {
       <div className="mt-10 sm:mt-12">
         <a
           href={githubUrl}
-          className="inline-flex items-center gap-2 text-sm font-medium text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors border-b border-transparent hover:border-neutral-500"
+          className="inline-flex items-center gap-2 text-sm font-medium text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors border-b border-transparent hover:border-neutral-500"
         >
           View Full Project Archive <ArrowRight size={14} />
         </a>
