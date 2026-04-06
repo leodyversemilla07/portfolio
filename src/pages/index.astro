@@ -12,14 +12,14 @@ const currentYear = new Date().getFullYear();
 	description={PERSONAL_INFO.tagline}
 >
 	<main class="min-h-screen bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100">
-		<div class="max-w-3xl mx-auto px-6 py-16 sm:py-24">
+		<div class="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-24">
 			
 			<!-- Header/Hero -->
-			<header class="mb-20">
-				<h1 class="text-4xl sm:text-5xl font-bold mb-4 tracking-tight">
+			<header class="mb-12 sm:mb-20">
+				<h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 tracking-tight">
 					{PERSONAL_INFO.name}
 				</h1>
-				<p class="text-lg text-neutral-600 dark:text-neutral-400 mb-6">
+				<p class="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 mb-6">
 					{PERSONAL_INFO.tagline}
 				</p>
 				<div class="flex flex-wrap gap-4 text-sm text-neutral-600 dark:text-neutral-400">
@@ -61,32 +61,32 @@ const currentYear = new Date().getFullYear();
 				</div>
 			</header>
 
-			<section class="mb-20">
-				<h2 class="text-2xl font-semibold mb-6">About</h2>
+			<section class="mb-12 sm:mb-20">
+				<h2 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">About</h2>
 				<div class="prose prose-neutral dark:prose-invert max-w-none">
-					<p class="text-neutral-700 dark:text-neutral-300 leading-relaxed mb-4">
+					<p class="text-sm sm:text-base text-neutral-700 dark:text-neutral-300 leading-relaxed mb-4">
 						What got me into programming was how it felt like magic—building something from nothing, writing spells that affect reality. I've always been into fantasy, especially mages and spellcasting, and coding emulates that experience.
 					</p>
-					<p class="text-neutral-700 dark:text-neutral-300 leading-relaxed mb-4">
+					<p class="text-sm sm:text-base text-neutral-700 dark:text-neutral-300 leading-relaxed mb-4">
 						I'm finishing my BSIT at Mindoro State University - Bongabong Campus. For my capstone project, I saw government procurement drowning in manual processes and corruption. So I built ProcuChain—a blockchain system that's now used by actual Bids and Awards Committees. Solo project, real impact.
 					</p>
-					<p class="text-neutral-700 dark:text-neutral-300 leading-relaxed">
+					<p class="text-sm sm:text-base text-neutral-700 dark:text-neutral-300 leading-relaxed">
 						I'm also into cybersecurity. Scored highest in my region for Hack4Gov 3 as an individual, earned a wildcard to nationals. When I'm not coding, I'm reading manhwa or manga in <a href="https://github.com/mihonapp/mihon" target="_blank" rel="noopener noreferrer" class="underline hover:text-neutral-900 dark:hover:text-neutral-100">Mihon</a> (which I contribute to), breaking things in CTF challenges, or tinkering with AI.
 					</p>
 				</div>
 			</section>
 
 			<!-- Projects -->
-			<section class="mb-20">
-				<h2 class="text-2xl font-semibold mb-6">Selected Work</h2>
-				<div class="space-y-8">
+			<section class="mb-12 sm:mb-20">
+				<h2 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Selected Work</h2>
+				<div class="space-y-6 sm:space-y-8">
 					{PROJECTS.map((project) => (
 						<div class="group">
 							<div class="flex items-start justify-between gap-4 mb-2">
-								<h3 class="text-lg font-medium text-neutral-900 dark:text-neutral-100">
+								<h3 class="text-base sm:text-lg font-medium text-neutral-900 dark:text-neutral-100">
 									{project.title}
 								</h3>
-								<div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+								<div class="flex gap-2 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
 									{project.link && (
 										<a
 											href={project.link}
@@ -125,13 +125,13 @@ const currentYear = new Date().getFullYear();
 			</section>
 
 			<!-- Experience/Achievements -->
-			<section class="mb-20">
-				<h2 class="text-2xl font-semibold mb-6">Recognition</h2>
+			<section class="mb-12 sm:mb-20">
+				<h2 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Recognition</h2>
 				<div class="space-y-4">
 					{ACHIEVEMENTS.map((achievement) => (
 						<div>
-							<div class="flex items-baseline justify-between gap-4 mb-1">
-								<h3 class="font-medium text-neutral-900 dark:text-neutral-100">
+							<div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4 mb-1">
+								<h3 class="text-sm sm:text-base font-medium text-neutral-900 dark:text-neutral-100">
 									{achievement.title}
 								</h3>
 								<span class="text-sm text-neutral-500 dark:text-neutral-500">
@@ -147,8 +147,8 @@ const currentYear = new Date().getFullYear();
 			</section>
 
 			<!-- Skills -->
-			<section class="mb-20">
-				<h2 class="text-2xl font-semibold mb-6">Skills</h2>
+			<section class="mb-12 sm:mb-20">
+				<h2 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Skills</h2>
 				<div class="flex flex-wrap gap-2">
 					{SKILLS.map((skill) => (
 						<span class="text-sm text-neutral-600 dark:text-neutral-400">
@@ -159,9 +159,9 @@ const currentYear = new Date().getFullYear();
 			</section>
 
 			<!-- Contact -->
-			<section class="mb-12">
-				<h2 class="text-2xl font-semibold mb-6">Get in Touch</h2>
-				<p class="text-neutral-600 dark:text-neutral-400 mb-4">
+			<section class="mb-8 sm:mb-12">
+				<h2 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Get in Touch</h2>
+				<p class="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 mb-4">
 					I'm currently looking for new opportunities. Feel free to reach out if you'd like to work together.
 				</p>
 				<a 
