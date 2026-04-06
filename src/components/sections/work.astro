@@ -1,9 +1,0 @@
----
-import Section from '../section.astro';
-import { WorkFilter } from '../sections/work-filter';
-import { PROJECTS, PERSONAL_INFO } from '../../consts';
----
-
-<Section title="Selected Work" id="work">
-  <WorkFilter client:visible projects={PROJECTS} githubUrl={PERSONAL_INFO.github} />
-</Section>
