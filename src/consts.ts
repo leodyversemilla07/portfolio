@@ -8,6 +8,7 @@ export const PERSONAL_INFO = {
   email: "leodyversemilla07@gmail.com",
   github: "https://github.com/leodyversemilla07",
   linkedin: "https://linkedin.com/in/leodyversemilla07",
+  x: "https://x.com/ldyvrsmll07",
   resumeLink: "/resume.pdf",
   location: "Oriental Mindoro, Philippines",
   timezone: "GMT+8",
