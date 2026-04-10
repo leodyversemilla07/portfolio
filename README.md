@@ -47,4 +47,4 @@ Edit `src/consts.ts` to update:
 
 ## License
 
-MIT
+This project is licensed under the [MIT License](./LICENSE).
