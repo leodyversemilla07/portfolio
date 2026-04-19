@@ -16,17 +16,108 @@ export const PERSONAL_INFO = {
   hobbies: ["Capture The Flag competitions", "Open source contributing", "Tech blogging"]
 };
 
+export const TECH_STACK = [
+  // Languages
+  {
+    name: "PHP & TypeScript",
+    logos: [
+      "https://cdn.simpleicons.org/php",
+      "https://cdn.simpleicons.org/typescript"
+    ]
+  },
+
+  // Backend
+  {
+    name: "Laravel & Node.js",
+    logos: [
+      "https://cdn.simpleicons.org/laravel",
+      "https://cdn.simpleicons.org/nodedotjs"
+    ]
+  },
+  {
+    name: "NestJS",
+    logos: ["https://cdn.simpleicons.org/nestjs"]
+  },
+
+  // Frontend & Mobile
+  {
+    name: "React & Next.js",
+    logos: [
+      "https://cdn.simpleicons.org/react",
+      "https://cdn.simpleicons.org/nextdotjs"
+    ]
+  },
+  {
+    name: "React Native & Expo",
+    logos: [
+      {
+        src: "https://cdn.simpleicons.org/react",
+        label: "React Native"
+      },
+      "https://cdn.simpleicons.org/expo"
+    ]
+  },
+  {
+    name: "Inertia.js",
+    logos: ["https://cdn.simpleicons.org/inertia"]
+  },
+  {
+    name: "Tailwind CSS & Shadcn UI",
+    logos: [
+      "https://cdn.simpleicons.org/tailwindcss",
+      "https://cdn.simpleicons.org/shadcnui"
+    ]
+  },
+  {
+    name: "Convex",
+    logos: ["https://cdn.simpleicons.org/convex"]
+  },
+
+  // Data & Infrastructure
+  {
+    name: "MySQL",
+    logos: ["https://cdn.simpleicons.org/mysql"]
+  },
+  {
+    name: "Docker",
+    logos: ["https://cdn.simpleicons.org/docker"]
+  },
+
+  // Tooling
+  {
+    name: "Git & GitHub Actions",
+    logos: [
+      "https://cdn.simpleicons.org/git",
+      "https://cdn.simpleicons.org/githubactions"
+    ]
+  },
+
+  // Specialized
+  {
+    name: "Blockchain (MultiChain)",
+    logos: ["https://cdn.simpleicons.org/ethereum"]
+  },
+  {
+    name: "Cybersecurity (CTF)",
+    logos: ["https://cdn.simpleicons.org/hackthebox"]
+  }
+];
+
 export const SKILLS = [
-  "PHP & Laravel",
-  "MySQL",
-  "TypeScript & React",
-  "Node.js",
-  "Inertia.js",
-  "Tailwind CSS & Shadcn UI",
-  "Blockchain (MultiChain)",
-  "Docker",
-  "Git & GitHub Actions",
-  "Cybersecurity (CTF)"
+  // Application Engineering
+  "Full-stack web development",
+  "REST API design & integration",
+  "Authentication and role-based access control",
+  "Database design and optimization",
+
+  // Specialized Domains
+  "Blockchain-powered app development",
+  "Cybersecurity and CTF problem solving",
+  "AI-assisted development",
+
+  // Delivery & Collaboration
+  "CI/CD automation and developer tooling",
+  "Technical documentation and knowledge sharing"
 ];
 
 export const PROJECTS = [
