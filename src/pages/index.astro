@@ -3,6 +3,7 @@ import "../styles/global.css";
 import Layout from "../layouts/layout.astro";
 import { PERSONAL_INFO, SKILLS, TECH_STACK, PROJECTS, ACHIEVEMENTS } from "../consts";
 import ThemeToggle from "@/components/theme-toggle";
+import BinaryBlitz from "@/components/binary-blitz";
 
 const currentYear = new Date().getFullYear();
 
@@ -268,6 +269,12 @@ const SKILL_LOGOS = TECH_STACK.flatMap((skill) =>
 						</div>
 					))}
 				</div>
+			</section>
+
+			<!-- Lab/Interactive -->
+			<section class="mb-12 sm:mb-20">
+				<h2 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Binary Blitz</h2>
+				<BinaryBlitz client:load />
 			</section>
 
 			<!-- Contact -->
