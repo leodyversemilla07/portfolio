@@ -71,12 +71,13 @@ const darkInvertLogoSlugs = new Set(["shadcnui", "nextdotjs", "expo", "convex"])
 const SKILL_LOGOS = TECH_STACK.flatMap((skill) =>
 	skill.logos.map((logo) => {
 		const logoUrl = typeof logo === "string" ? logo : logo.src;
-		const slug = logoUrl.split("/").pop() ?? "";
-		return {
-			logo: logoUrl,
-			slug,
-			name: typeof logo === "string" ? toLogoLabel(slug) : logo.label
-		};
+		const isDataUri = logoUrl.startsWith("data:");
+		const derivedSlug = isDataUri ? "" : (logoUrl.split("/").pop() ?? "");
+		const slug = typeof logo === "object" && (logo as any).slug
+			? (logo as any).slug
+			: derivedSlug;
+		const name = typeof logo === "string" ? toLogoLabel(slug) : logo.label;
+		return { logo: logoUrl, slug, name };
 	})
 ).sort((a, b) => {
 	const aIndex = preferredLogoOrder.indexOf(a.slug);
