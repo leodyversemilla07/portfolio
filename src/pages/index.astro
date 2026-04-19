@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import Layout from "../layouts/layout.astro";
 import { PERSONAL_INFO, SKILLS, TECH_STACK, PROJECTS, ACHIEVEMENTS } from "../consts";
+import ThemeToggle from "@/components/theme-toggle";
 
 const currentYear = new Date().getFullYear();
 
@@ -65,6 +66,8 @@ const preferredLogoOrder = [
 	"hackthebox"
 ];
 
+const darkInvertLogoSlugs = new Set(["shadcnui", "nextdotjs", "expo", "convex"]);
+
 const SKILL_LOGOS = TECH_STACK.flatMap((skill) =>
 	skill.logos.map((logo) => {
 		const logoUrl = typeof logo === "string" ? logo : logo.src;
@@ -90,7 +93,7 @@ const SKILL_LOGOS = TECH_STACK.flatMap((skill) =>
 	title={`${PERSONAL_INFO.name} | ${PERSONAL_INFO.role}`}
 	description={PERSONAL_INFO.tagline}
 >
-	<main class="min-h-screen bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100">
+	<main class="min-h-screen bg-background text-foreground">
 		<div class="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-24">
 			
 			<!-- Header/Hero -->
@@ -98,22 +101,22 @@ const SKILL_LOGOS = TECH_STACK.flatMap((skill) =>
 				<h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 tracking-tight">
 					{PERSONAL_INFO.name}
 				</h1>
-				<p class="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 mb-6">
+				<p class="text-base sm:text-lg text-muted-foreground mb-6">
 					{PERSONAL_INFO.tagline}
 				</p>
-				<div class="flex flex-wrap gap-4 text-sm text-neutral-600 dark:text-neutral-400">
+				<div class="flex flex-wrap gap-4 text-sm text-muted-foreground">
 					<div class="flex items-center gap-2">
 						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
 						{PERSONAL_INFO.location}
 					</div>
 
 				</div>
-				<div class="flex gap-4 mt-6">
+				<div class="flex items-center gap-4 mt-6">
 					<a 
 						href={PERSONAL_INFO.github}
 						target="_blank"
 						rel="noopener noreferrer"
-						class="text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100 transition-colors"
+						class="text-muted-foreground hover:text-foreground transition-colors"
 						aria-label="GitHub"
 					>
 						<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
@@ -122,7 +125,7 @@ const SKILL_LOGOS = TECH_STACK.flatMap((skill) =>
 						href={PERSONAL_INFO.linkedin}
 						target="_blank"
 						rel="noopener noreferrer"
-						class="text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100 transition-colors"
+						class="text-muted-foreground hover:text-foreground transition-colors"
 						aria-label="LinkedIn"
 					>
 						<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
@@ -131,32 +134,33 @@ const SKILL_LOGOS = TECH_STACK.flatMap((skill) =>
 						href={PERSONAL_INFO.x}
 						target="_blank"
 						rel="noopener noreferrer"
-						class="text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100 transition-colors"
+						class="text-muted-foreground hover:text-foreground transition-colors"
 						aria-label="X"
 					>
 						<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2H21l-6.51 7.437L22.148 22h-5.995l-4.694-6.133L6.09 22H3.333l6.962-7.955L1.852 2h6.148l4.243 5.593L18.244 2Zm-.967 18.348h1.526L7.15 3.566H5.512l11.765 16.782Z"/></svg>
 					</a>
 					<a 
 						href={`mailto:${PERSONAL_INFO.email}`}
-						class="text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100 transition-colors"
+						class="text-muted-foreground hover:text-foreground transition-colors"
 						aria-label="Email"
 					>
 						<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
 					</a>
+					<ThemeToggle client:load />
 				</div>
 			</header>
 
 			<section class="mb-12 sm:mb-20">
 				<h2 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">About</h2>
-				<div class="prose prose-neutral dark:prose-invert max-w-none">
-					<p class="text-sm sm:text-base text-neutral-700 dark:text-neutral-300 leading-relaxed mb-4">
+				<div class="max-w-none">
+					<p class="text-sm sm:text-base text-muted-foreground leading-relaxed mb-4">
 						I’m an aspiring full-stack software engineer focused on building practical, real-world products across the stack, from backend systems and developer tooling to frontend interfaces and UI/UX.
 					</p>
-					<p class="text-sm sm:text-base text-neutral-700 dark:text-neutral-300 leading-relaxed mb-4">
+					<p class="text-sm sm:text-base text-muted-foreground leading-relaxed mb-4">
 						My capstone project, <strong>ProcuChain</strong>, is a blockchain-powered document management system used by Bids and Awards Committees to improve transparency and document integrity in procurement workflows.
 					</p>
-					<p class="text-sm sm:text-base text-neutral-700 dark:text-neutral-300 leading-relaxed">
-						I’m also active in cybersecurity and competitive problem-solving, earning the highest individual regional score in <strong>Hack4Gov 3</strong> and qualifying for the national finals through a wildcard slot. Outside of projects, I contribute to open source—including <a href="https://github.com/mihonapp/mihon" target="_blank" rel="noopener noreferrer" class="underline hover:text-neutral-900 dark:hover:text-neutral-100">Mihon</a>, explore CTF challenges, and continuously improve my engineering skills.
+					<p class="text-sm sm:text-base text-muted-foreground leading-relaxed">
+						I’m also active in cybersecurity and competitive problem-solving, earning the highest individual regional score in <strong>Hack4Gov 3</strong> and qualifying for the national finals through a wildcard slot. Outside of projects, I contribute to open source—including <a href="https://github.com/mihonapp/mihon" target="_blank" rel="noopener noreferrer" class="underline hover:text-foreground">Mihon</a>, explore CTF challenges, and continuously improve my engineering skills.
 					</p>
 				</div>
 			</section>
@@ -168,7 +172,7 @@ const SKILL_LOGOS = TECH_STACK.flatMap((skill) =>
 					{PROJECTS.map((project) => (
 						<div class="group">
 							<div class="flex items-start justify-between gap-4 mb-2">
-								<h3 class="text-base sm:text-lg font-medium text-neutral-900 dark:text-neutral-100">
+								<h3 class="text-base sm:text-lg font-medium text-foreground">
 									{project.title}
 								</h3>
 								<div class="flex gap-2 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
@@ -177,7 +181,7 @@ const SKILL_LOGOS = TECH_STACK.flatMap((skill) =>
 											href={project.link}
 											target="_blank"
 											rel="noopener noreferrer"
-											class="text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100"
+											class="text-muted-foreground hover:text-foreground"
 											aria-label="Visit project"
 										>
 											<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
@@ -187,19 +191,19 @@ const SKILL_LOGOS = TECH_STACK.flatMap((skill) =>
 										href={project.github}
 										target="_blank"
 										rel="noopener noreferrer"
-										class="text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100"
+										class="text-muted-foreground hover:text-foreground"
 										aria-label="View source"
 									>
 										<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
 									</a>
 								</div>
 							</div>
-							<p class="text-neutral-600 dark:text-neutral-400 text-sm mb-3">
+							<p class="text-muted-foreground text-sm mb-3">
 								{project.description}
 							</p>
 							<div class="flex flex-wrap gap-2">
 								{project.tech.slice(0, 4).map((tech) => (
-									<span class="text-xs text-neutral-500 dark:text-neutral-500">
+									<span class="text-xs text-muted-foreground">
 										{tech}
 									</span>
 								))}
@@ -213,16 +217,16 @@ const SKILL_LOGOS = TECH_STACK.flatMap((skill) =>
 			<!-- Tech Stack -->
 			<section class="mb-12 sm:mb-20">
 				<h2 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Tech Stack</h2>
-				<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-px p-px bg-neutral-300 dark:bg-neutral-700">
+				<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-px p-px bg-border">
 					{SKILL_LOGOS.map((item) => (
-						<div class="aspect-square flex flex-col items-center justify-center gap-2 p-2 bg-white dark:bg-neutral-950">
+						<div class="aspect-square flex flex-col items-center justify-center gap-2 p-2 bg-card">
 							<img
 								src={item.logo}
 								alt={`${item.name} logo`}
-								class={`w-9 h-9 sm:w-10 sm:h-10 opacity-85 ${item.slug === "shadcnui" || item.slug === "nextdotjs" || item.slug === "expo" ? "dark:invert" : ""}`}
+								class={`w-9 h-9 sm:w-10 sm:h-10 opacity-85 transition ${darkInvertLogoSlugs.has(item.slug) ? "dark:invert" : ""} dark:brightness-110`}
 								loading="lazy"
 							/>
-							<span class="text-[10px] sm:text-xs leading-tight text-center text-neutral-600 dark:text-neutral-400">
+							<span class="text-[10px] sm:text-xs leading-tight text-center text-muted-foreground">
 								{item.name}
 							</span>
 						</div>
@@ -233,10 +237,10 @@ const SKILL_LOGOS = TECH_STACK.flatMap((skill) =>
 			<!-- Skills -->
 			<section class="mb-12 sm:mb-20">
 				<h2 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Skills</h2>
-				<ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-neutral-700 dark:text-neutral-300">
+				<ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-muted-foreground">
 					{SKILLS.map((skill) => (
 						<li class="flex items-start gap-2">
-							<span class="mt-[5px] block h-1.5 w-1.5 rounded-full bg-neutral-500 dark:bg-neutral-400"></span>
+							<span class="mt-[5px] block h-1.5 w-1.5 rounded-full bg-muted-foreground"></span>
 							<span>{skill}</span>
 						</li>
 					))}
@@ -250,14 +254,14 @@ const SKILL_LOGOS = TECH_STACK.flatMap((skill) =>
 					{ACHIEVEMENTS.map((achievement) => (
 						<div>
 							<div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4 mb-1">
-								<h3 class="text-sm sm:text-base font-medium text-neutral-900 dark:text-neutral-100">
+								<h3 class="text-sm sm:text-base font-medium text-foreground">
 									{achievement.title}
 								</h3>
-								<span class="text-sm text-neutral-500 dark:text-neutral-500">
+								<span class="text-sm text-muted-foreground">
 									{achievement.date}
 								</span>
 							</div>
-							<p class="text-sm text-neutral-600 dark:text-neutral-400">
+							<p class="text-sm text-muted-foreground">
 								{achievement.description}
 							</p>
 						</div>
@@ -268,12 +272,12 @@ const SKILL_LOGOS = TECH_STACK.flatMap((skill) =>
 			<!-- Contact -->
 			<section class="mb-8 sm:mb-12">
 				<h2 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Get in Touch</h2>
-				<p class="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 mb-4">
+				<p class="text-sm sm:text-base text-muted-foreground mb-4">
 					I'm currently looking for new opportunities. Feel free to reach out if you'd like to work together.
 				</p>
 				<a 
 					href={`mailto:${PERSONAL_INFO.email}`}
-					class="inline-flex items-center gap-2 text-neutral-900 dark:text-neutral-100 hover:text-neutral-600 dark:hover:text-neutral-400 transition-colors"
+					class="inline-flex items-center gap-2 text-foreground hover:text-muted-foreground transition-colors"
 				>
 					<svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
 					{PERSONAL_INFO.email}
@@ -281,8 +285,8 @@ const SKILL_LOGOS = TECH_STACK.flatMap((skill) =>
 			</section>
 
 			<!-- Footer -->
-			<footer class="pt-8 border-t border-neutral-200 dark:border-neutral-800">
-				<p class="text-xs text-neutral-500 dark:text-neutral-500 text-center">
+			<footer class="pt-8 border-t border-border">
+				<p class="text-xs text-muted-foreground text-center">
 					© {currentYear} {PERSONAL_INFO.name}
 				</p>
 			</footer>
