@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter, CardAction } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -40,7 +40,7 @@ const BinaryBlitz = () => {
   }, [currentValue, target, gameState, generateTarget]);
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
+    let timer: ReturnType<typeof setInterval>;
     if (gameState === 'playing' && timeLeft > 0) {
       timer = setInterval(() => {
         setTimeLeft(t => {

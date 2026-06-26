@@ -4,7 +4,7 @@ This document provides technical context for AI agents to understand how to effe
 
 ## Technical Foundation
 
-- **Astro 6 & React 19**: The project uses Astro as the static site generator with React 19 for interactive components.
+- **Astro 7 & React 19**: The project uses Astro as the static site generator with React 19 for interactive components.
 - **Tailwind CSS v4**: Styling is built on the newest Tailwind v4. Note the absence of `tailwind.config.js`; all configuration is done via CSS variables in `src/styles/global.css`.
 - **Shadcn UI (Lyra Style)**: The component system follows the `base-lyra` style. Components are located in `src/components/ui` and utilize `@base-ui/react` primitives.
 - **Aesthetic**: Minimalist, technical, and sharp. Avoid rounded corners (prefer `rounded-none`) to stay consistent with the Lyra preset.

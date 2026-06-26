@@ -4,13 +4,13 @@ A minimalist, high-performance single-page portfolio built with the latest web t
 
 ## Tech Stack
 
-- **Framework:** [Astro 6](https://astro.build/)
+- **Framework:** [Astro 7](https://astro.build/)
 - **UI Framework:** [React 19](https://react.dev/)
 - **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
 - **Components:** [Shadcn UI](https://ui.shadcn.com/) (using the **Lyra** preset and [Base UI](https://base-ui.com/))
-- **Fonts:** [JetBrains Mono](https://www.jetbrains.com/lp/mono/) & General Sans
+- **Fonts:** [JetBrains Mono](https://www.jetbrains.com/lp/mono/)
 - **Icons:** [Phosphor Icons](https://phosphoricons.com/)
-- **Deployment:** [Vercel](https://vercel.com/)
+- **Deployment:** [Vercel](https://vercel.com/) static hosting
 
 ## Features
 
