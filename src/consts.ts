@@ -185,6 +185,26 @@ export const PROJECTS = [
     tech: ["Node.js", "TypeScript", "Oclif", "ngrok"],
     link: "https://www.npmjs.com/package/paymongo-cli",
     github: "https://github.com/leodyversemilla07/paymongo-cli"
+  },
+  {
+    slug: "telehealth-app",
+    title: "Telehealth App",
+    description: "Full‑stack telehealth platform with Next.js frontend, NestJS backend, PostgreSQL, Better Auth, LiveKit video, and real‑time chat.",
+    fullDescription: "Telehealth App is a comprehensive remote‑healthcare solution built with a Next.js 16 frontend (React 19, Tailwind v4, Base UI) and a NestJS 11 backend (Express, Prisma, PostgreSQL). It includes secure authentication via Better Auth, two‑factor authentication, video consultations powered by LiveKit, real‑time messaging with Socket.io, email notifications via Nodemailer, and S3‑compatible storage.",
+    story: "I wanted to create a privacy‑first, NPC‑compliant telemedicine system that could be deployed locally for clinics. Building this stack let me combine modern web tech with strict security requirements.",
+    features: [
+      "Patient portal: appointments, records, chat, prescriptions",
+      "Doctor portal: schedule, consultations, patient records",
+      "Admin dashboard: user management, audit logs, reports",
+      "Secure auth with email verification, 2FA, account lockout",
+      "Video consultations via LiveKit",
+      "Real‑time chat & notifications (Socket.io)",
+      "Swagger API docs",
+      "Comprehensive audit logging and security alerts"
+    ],
+    tech: ["Next.js", "React", "Tailwind CSS", "Base UI", "NestJS", "Express", "PostgreSQL", "Prisma", "Better Auth", "LiveKit", "Socket.io", "Nodemailer"],
+    link: "https://github.com/leodyversemilla07/telehealth-app",
+    github: "https://github.com/leodyversemilla07/telehealth-app"
   }
 ];
 
