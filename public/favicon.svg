@@ -1,12 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-  <rect width="128" height="128" rx="24" class="bg"/>
-  <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="'General Sans', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="52" class="fg">LS</text>
-  <style>
-    .bg { fill: #000; }
-    .fg { fill: #fff; }
-    @media (prefers-color-scheme: dark) {
-      .bg { fill: #fff; }
-      .fg { fill: #000; }
-    }
-  </style>
+  <defs>
+    <style>
+      .bg { fill: #090a0f; stroke: #27272a; stroke-width: 6; }
+      .glyph { fill: #fafafa; font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace; font-weight: 800; font-size: 40px; letter-spacing: -1.5px; }
+      .accent { fill: #10b981; }
+      @media (prefers-color-scheme: light) {
+        .bg { fill: #ffffff; stroke: #d4d4d8; }
+        .glyph { fill: #09090b; }
+        .accent { fill: #059669; }
+      }
+    </style>
+  </defs>
+  <!-- Sharp Outer Canvas -->
+  <rect x="3" y="3" width="122" height="122" class="bg" />
+  
+  <!-- Monospace Monogram -->
+  <text x="64" y="72" text-anchor="middle" dominant-baseline="middle" class="glyph">
+    L<tspan fill="#71717a">//</tspan>S
+  </text>
+  
+  <!-- Pulsing Status Accent -->
+  <circle cx="104" cy="24" r="7" class="accent" />
 </svg>
