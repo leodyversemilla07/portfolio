@@ -29,7 +29,16 @@ const {
 			document.documentElement.classList.toggle("dark", isDark);
 		</script>
 	</head>
-	<body>
-		<slot />
+	<body class="relative min-h-screen bg-background text-foreground antialiased selection:bg-foreground selection:text-background">
+		<!-- Subtle Technical Dot-Grid Layer with Radial Vignette Fade -->
+		<div 
+			class="fixed inset-0 pointer-events-none z-0 opacity-60 dark:opacity-30" 
+			style="background-image: radial-gradient(var(--color-foreground) 1px, transparent 1px); background-size: 24px 24px; mask-image: radial-gradient(ellipse 70% 60% at 50% 10%, black 40%, transparent 95%);"
+			aria-hidden="true"
+		></div>
+
+		<div class="relative z-10">
+			<slot />
+		</div>
 	</body>
 </html>

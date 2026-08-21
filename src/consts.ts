@@ -4,7 +4,6 @@
 export const PERSONAL_INFO = {
   name: "Leodyver S. Semilla",
   role: "Aspiring Software Engineer",
-  tagline: "I just want to build something meaningful.",
   email: "leodyversemilla07@gmail.com",
   github: "https://github.com/leodyversemilla07",
   linkedin: "https://linkedin.com/in/leodyversemilla07",
@@ -106,6 +105,74 @@ export const TECH_STACK = [
   {
     name: "Cybersecurity (CTF)",
     logos: ["https://cdn.simpleicons.org/hackthebox"]
+  }
+];
+
+export const TECH_CATEGORIES = [
+  {
+    domain: "Languages & Runtimes",
+    items: [
+      { name: "PHP", slug: "php", logo: "https://cdn.simpleicons.org/php" },
+      { name: "TypeScript", slug: "typescript", logo: "https://cdn.simpleicons.org/typescript" },
+      { name: "Node.js", slug: "nodedotjs", logo: "https://cdn.simpleicons.org/nodedotjs" },
+    ]
+  },
+  {
+    domain: "Backend & Databases",
+    items: [
+      { name: "Laravel", slug: "laravel", logo: "https://cdn.simpleicons.org/laravel" },
+      { name: "NestJS", slug: "nestjs", logo: "https://cdn.simpleicons.org/nestjs" },
+      { name: "MySQL", slug: "mysql", logo: "https://cdn.simpleicons.org/mysql" },
+      { name: "Docker", slug: "docker", logo: "https://cdn.simpleicons.org/docker" },
+    ]
+  },
+  {
+    domain: "Frontend & Mobile",
+    items: [
+      { name: "React", slug: "react", logo: "https://cdn.simpleicons.org/react" },
+      { name: "Next.js", slug: "nextdotjs", logo: "https://cdn.simpleicons.org/nextdotjs", darkInvert: true },
+      { name: "React Native", slug: "react", logo: "https://cdn.simpleicons.org/react" },
+      { name: "Expo", slug: "expo", logo: "https://cdn.simpleicons.org/expo", darkInvert: true },
+      { name: "Inertia.js", slug: "inertia", logo: "https://cdn.simpleicons.org/inertia" },
+      { name: "Tailwind CSS", slug: "tailwindcss", logo: "https://cdn.simpleicons.org/tailwindcss" },
+      { name: "shadcn/ui", slug: "shadcnui", logo: "https://cdn.simpleicons.org/shadcnui", darkInvert: true },
+      { 
+        name: "Convex", 
+        slug: "convex", 
+        logo: "data:image/svg+xml,%3Csvg fill='%23EE342F' role='img' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Ctitle%3EConvex%3C/title%3E%3Cpath d='M15.09 18.916c3.488-.387 6.776-2.246 8.586-5.348-.857 7.673-9.247 12.522-16.095 9.545a3.47 3.47 0 0 1-1.547-1.314c-1.539-2.417-2.044-5.492-1.318-8.282 2.077 3.584 6.3 5.78 10.374 5.399m-10.501-7.65c-1.414 3.266-1.475 7.092.258 10.24-6.1-4.59-6.033-14.41-.074-18.953a3.44 3.44 0 0 1 1.893-.707c2.825-.15 5.695.942 7.708 2.977-4.09.04-8.073 2.66-9.785 6.442m11.757-5.437C14.283 2.951 11.053.992 7.515.933c6.84-3.105 15.253 1.929 16.17 9.37a3.6 3.6 0 0 1-.334 2.02c-1.278 2.594-3.647 4.607-6.416 5.352 2.029-3.763 1.778-8.36-.589-11.847'/%3E%3C/svg%3E",
+        darkInvert: true
+      },
+    ]
+  },
+  {
+    domain: "Specialized & Tooling",
+    items: [
+      { name: "MultiChain", slug: "ethereum", logo: "https://cdn.simpleicons.org/ethereum" },
+      { name: "CTF / Cyber", slug: "hackthebox", logo: "https://cdn.simpleicons.org/hackthebox" },
+      { name: "Git", slug: "git", logo: "https://cdn.simpleicons.org/git" },
+      { name: "GitHub Actions", slug: "githubactions", logo: "https://cdn.simpleicons.org/githubactions" },
+    ]
+  }
+];
+
+export const SKILL_DOMAINS = [
+  {
+    domain: "Application & System Engineering",
+    skills: [
+      "Full-stack web architecture & reactive interfaces",
+      "RESTful API design, rate-limiting & webhook infrastructure",
+      "Role-based access control (RBAC), 2FA & secure auth",
+      "Relational schema modeling & query optimization"
+    ]
+  },
+  {
+    domain: "Specialized & Security Capabilities",
+    skills: [
+      "Blockchain-powered document & audit trail solutions",
+      "CTF problem solving & web vulnerability assessment",
+      "Developer CLI tooling & developer experience automation",
+      "Open-source collaboration & technical documentation"
+    ]
   }
 ];
 
@@ -216,3 +283,36 @@ export const ACHIEVEMENTS = [
     date: "2024"
   }
 ];
+
+export const EXPERIENCES = [
+  {
+    company: "Hytec Power Inc.",
+    role: "Backend Developer Intern",
+    location: "Novaliches, Quezon City",
+    period: "Feb 2026 – Apr 2026",
+    bullets: [
+      "Built and maintained core modules of an internal HRIS in Laravel, streamlining employee records and HR workflows across the organization.",
+      "Implemented API rate limiting across key endpoints to prevent abuse and ensure fair resource allocation, improving system stability during peak usage.",
+      "Designed and shipped a maintenance-mode feature with a custom status page, enabling smoother, zero-surprise deployments and reducing user-facing downtime.",
+      "Collaborated with the engineering team on code reviews, bug fixes, and backend documentation, improving code quality and speeding up onboarding for new team members."
+    ],
+    tech: ["Laravel", "PHP", "MySQL", "REST APIs", "Git"]
+  }
+];
+
+export const EDUCATION = {
+  school: "Mindoro State University – Bongabong Campus",
+  degree: "BS Information Technology",
+  period: "2022 – 2026",
+  honor: "GWA: 1.46 (Academic Distinction) • Dean’s Lister, 2022–2025",
+  location: "Bongabong, Oriental Mindoro",
+  coursework: [
+    "Data Structures & Algorithms",
+    "Object-Oriented Programming",
+    "Database Systems",
+    "Web Systems & Technologies",
+    "Networking",
+    "Information Assurance & Security"
+  ]
+};
+

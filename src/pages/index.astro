@@ -1,212 +1,235 @@
 ---
 import Layout from "../layouts/layout.astro";
-import { PERSONAL_INFO, SKILLS, TECH_STACK, PROJECTS, ACHIEVEMENTS } from "../consts";
+import { 
+	PERSONAL_INFO, 
+	EXPERIENCES,
+	TECH_CATEGORIES, 
+	SKILL_DOMAINS, 
+	PROJECTS, 
+	ACHIEVEMENTS 
+} from "../consts";
 import ThemeToggle from "@/components/theme-toggle";
 import BinaryBlitz from "@/components/binary-blitz";
+import ProjectsSection from "@/components/projects-section";
 
 const currentYear = new Date().getFullYear();
-
-const logoLabelMap: Record<string, string> = {
-	php: "PHP",
-	tailwindcss: "tailwindcss",
-	mysql: "MySQL",
-	typescript: "TypeScript",
-	shadcnui: "Shadcn UI",
-	nodedotjs: "Node.js",
-	"node.js": "Node.js",
-	nextdotjs: "Next.js",
-	nestjs: "NestJS",
-	expo: "Expo",
-	convex: "Convex",
-	blockchaindotcom: "Blockchain",
-	ethereum: "Blockchain",
-	githubactions: "GitHub Actions",
-	hackthebox: "CTF"
-};
-
-const toLogoLabel = (slug: string) => {
-	if (logoLabelMap[slug]) return logoLabelMap[slug];
-
-	return slug
-		.replace(/dot/g, ".")
-		.replace(/-/g, " ")
-		.replace(/\b\w/g, (char) => char.toUpperCase())
-		.replace(/\.Js\b/g, ".js");
-};
-
-const preferredLogoOrder = [
-	// Languages
-	"php",
-	"typescript",
-
-	// Backend
-	"laravel",
-	"nodedotjs",
-	"nestjs",
-
-	// Frontend
-	"react",
-	"nextdotjs",
-	"expo",
-	"convex",
-	"inertia",
-	"tailwindcss",
-	"shadcnui",
-
-	// Data & Infrastructure
-	"mysql",
-	"docker",
-
-	// Tooling
-	"git",
-	"githubactions",
-
-	// Specialized
-	"ethereum",
-	"hackthebox"
-];
-
-const darkInvertLogoSlugs = new Set(["shadcnui", "nextdotjs", "expo", "convex"]);
-
-const SKILL_LOGOS = TECH_STACK.flatMap((skill) =>
-	skill.logos.map((logo) => {
-		const logoUrl = typeof logo === "string" ? logo : logo.src;
-		const isDataUri = logoUrl.startsWith("data:");
-		const derivedSlug = isDataUri ? "" : (logoUrl.split("/").pop() ?? "");
-		const slug = typeof logo === "object" && (logo as any).slug
-			? (logo as any).slug
-			: derivedSlug;
-		const name = typeof logo === "string" ? toLogoLabel(slug) : logo.label;
-		return { logo: logoUrl, slug, name };
-	})
-).sort((a, b) => {
-	const aIndex = preferredLogoOrder.indexOf(a.slug);
-	const bIndex = preferredLogoOrder.indexOf(b.slug);
-	const safeA = aIndex === -1 ? Number.MAX_SAFE_INTEGER : aIndex;
-	const safeB = bIndex === -1 ? Number.MAX_SAFE_INTEGER : bIndex;
-
-	if (safeA !== safeB) return safeA - safeB;
-	return a.name.localeCompare(b.name);
-});
 ---
 
 <Layout
 	title={`${PERSONAL_INFO.name} | ${PERSONAL_INFO.role}`}
-	description={PERSONAL_INFO.tagline}
+	description={`${PERSONAL_INFO.name} - ${PERSONAL_INFO.role}`}
 >
-	<main class="min-h-screen bg-background text-foreground">
-		<div class="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-24">
+	<main class="min-h-screen bg-background text-foreground selection:bg-foreground selection:text-background">
+		<div class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-16">
 			
-			<!-- Header/Hero -->
-			<header class="mb-12 sm:mb-20">
-				<h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 tracking-tight">
-					{PERSONAL_INFO.name}
-				</h1>
-				<p class="text-base sm:text-lg text-muted-foreground mb-6">
-					{PERSONAL_INFO.tagline}
-				</p>
-				<div class="flex flex-wrap gap-4 text-sm text-muted-foreground">
-					<div class="flex items-center gap-2">
-						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-						{PERSONAL_INFO.location}
-					</div>
-
+			<!-- Terminal Header / System Status Bar -->
+			<div class="flex items-center justify-between text-xs font-mono text-muted-foreground mb-8 pb-3 border-b border-border">
+				<div class="flex items-center gap-2 min-w-0 truncate">
+					<span class="text-muted-foreground/60">~/portfolio</span>
+					<span class="text-muted-foreground/40">/</span>
+					<span class="text-foreground font-semibold truncate">leodyver</span>
 				</div>
-				<div class="flex items-center gap-4 mt-6">
+				<div class="flex items-center gap-2 shrink-0">
+					<span class="relative flex h-2 w-2">
+						<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+						<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+					</span>
+					<span class="text-xs text-foreground/80 font-mono hidden sm:inline">Available for opportunities</span>
+					<span class="text-xs text-foreground/80 font-mono sm:hidden">Available</span>
+				</div>
+			</div>
+
+			<!-- Hero Section -->
+			<header class="mb-12 sm:mb-16 space-y-5">
+				<div class="space-y-2">
+					<div class="inline-flex items-center gap-2 px-2.5 py-0.5 text-[11px] font-mono uppercase tracking-wider bg-muted/80 text-muted-foreground border border-border">
+						{PERSONAL_INFO.role}
+					</div>
+					<h1 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground break-words">
+						{PERSONAL_INFO.name}
+					</h1>
+				</div>
+
+				<div class="flex flex-wrap items-center gap-y-2 gap-x-4 text-xs font-mono text-muted-foreground">
+					<div class="flex items-center gap-1.5">
+						<svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+						</svg>
+						<span>{PERSONAL_INFO.location}</span>
+					</div>
+					<span class="opacity-40 hidden sm:inline">•</span>
+					<div>{PERSONAL_INFO.timezone}</div>
+				</div>
+
+				<!-- Quick Action Links -->
+				<div class="flex flex-wrap items-center gap-2 pt-2">
+					<a
+						href={PERSONAL_INFO.resumeLink}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono bg-primary text-primary-foreground hover:bg-primary/90 active:translate-y-px transition-all"
+					>
+						<svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+						</svg>
+						<span>Resume [PDF]</span>
+					</a>
 					<a 
 						href={PERSONAL_INFO.github}
 						target="_blank"
 						rel="noopener noreferrer"
-						class="text-muted-foreground hover:text-foreground transition-colors"
+						class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono border border-border bg-card hover:bg-muted active:translate-y-px text-foreground transition-all"
 						aria-label="GitHub"
 					>
-						<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+						<svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+						<span>GitHub</span>
 					</a>
 					<a 
 						href={PERSONAL_INFO.linkedin}
 						target="_blank"
 						rel="noopener noreferrer"
-						class="text-muted-foreground hover:text-foreground transition-colors"
+						class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono border border-border bg-card hover:bg-muted active:translate-y-px text-foreground transition-all"
 						aria-label="LinkedIn"
 					>
-						<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+						<svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+						<span>LinkedIn</span>
 					</a>
 					<a 
 						href={PERSONAL_INFO.x}
 						target="_blank"
 						rel="noopener noreferrer"
-						class="text-muted-foreground hover:text-foreground transition-colors"
+						class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono border border-border bg-card hover:bg-muted active:translate-y-px text-foreground transition-all"
 						aria-label="X"
 					>
-						<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2H21l-6.51 7.437L22.148 22h-5.995l-4.694-6.133L6.09 22H3.333l6.962-7.955L1.852 2h6.148l4.243 5.593L18.244 2Zm-.967 18.348h1.526L7.15 3.566H5.512l11.765 16.782Z"/></svg>
+						<svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2H21l-6.51 7.437L22.148 22h-5.995l-4.694-6.133L6.09 22H3.333l6.962-7.955L1.852 2h6.148l4.243 5.593L18.244 2Zm-.967 18.348h1.526L7.15 3.566H5.512l11.765 16.782Z"/></svg>
+						<span>X</span>
 					</a>
-					<a 
-						href={`mailto:${PERSONAL_INFO.email}`}
-						class="text-muted-foreground hover:text-foreground transition-colors"
-						aria-label="Email"
-					>
-						<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-					</a>
-					<ThemeToggle client:load />
+					<div class="ml-auto shrink-0">
+						<ThemeToggle client:load />
+					</div>
 				</div>
 			</header>
 
-			<section class="mb-12 sm:mb-20">
-				<h2 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">About</h2>
-				<div class="max-w-none">
-					<p class="text-sm sm:text-base text-muted-foreground leading-relaxed mb-4">
+			<!-- About Section -->
+			<section class="mb-12 sm:mb-16">
+				<div class="flex items-center gap-2 mb-4 pb-2 border-b border-border">
+					<span class="text-xs font-mono text-muted-foreground uppercase tracking-wider">01 //</span>
+					<h2 class="text-lg sm:text-xl font-bold tracking-tight text-foreground">About</h2>
+				</div>
+				<div class="space-y-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
+					<p>
 						I’m an aspiring full-stack software engineer focused on building practical, real-world products across the stack, from backend systems and developer tooling to frontend interfaces and UI/UX.
 					</p>
-					<p class="text-sm sm:text-base text-muted-foreground leading-relaxed mb-4">
-						My capstone project, <strong>ProcuChain</strong>, is a blockchain-powered document management system used by Bids and Awards Committees to improve transparency and document integrity in procurement workflows.
+					<p>
+						My capstone project, <strong class="text-foreground font-semibold">ProcuChain</strong>, is a blockchain-powered document management system used by Bids and Awards Committees to improve transparency and document integrity in procurement workflows.
 					</p>
-					<p class="text-sm sm:text-base text-muted-foreground leading-relaxed">
-						I’m also active in cybersecurity and competitive problem-solving, earning the highest individual regional score in <strong>Hack4Gov 3</strong> and qualifying for the national finals through a wildcard slot. Outside of projects, I contribute to open source—including <a href="https://github.com/mihonapp/mihon" target="_blank" rel="noopener noreferrer" class="underline hover:text-foreground">Mihon</a>, explore CTF challenges, and continuously improve my engineering skills.
+					<p>
+						I’m also active in cybersecurity and competitive problem-solving, earning the highest individual regional score in <strong class="text-foreground font-semibold">Hack4Gov 3</strong> and qualifying for the national finals through a wildcard slot. Outside of projects, I contribute to open source—including <a href="https://github.com/mihonapp/mihon" target="_blank" rel="noopener noreferrer" class="underline text-foreground underline-offset-4 hover:opacity-80">Mihon</a>, explore CTF challenges, and continuously refine my engineering craft.
 					</p>
 				</div>
 			</section>
 
-			<!-- Projects -->
-			<section class="mb-12 sm:mb-20">
-				<h2 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Selected Work</h2>
-				<div class="space-y-6 sm:space-y-8">
-					{PROJECTS.map((project) => (
-						<div class="group">
-							<div class="flex items-start justify-between gap-4 mb-2">
-								<h3 class="text-base sm:text-lg font-medium text-foreground">
-									{project.title}
-								</h3>
-								<div class="flex gap-2 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
-									{project.link && (
-										<a
-											href={project.link}
-											target="_blank"
-											rel="noopener noreferrer"
-											class="text-muted-foreground hover:text-foreground"
-											aria-label="Visit project"
-										>
-											<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-										</a>
-									)}
-									<a
-										href={project.github}
-										target="_blank"
-										rel="noopener noreferrer"
-										class="text-muted-foreground hover:text-foreground"
-										aria-label="View source"
-									>
-										<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-									</a>
+			<!-- Work Experience Section -->
+			<section class="mb-12 sm:mb-16">
+				<div class="flex items-center justify-between gap-2 mb-4 pb-2 border-b border-border">
+					<div class="flex items-center gap-2">
+						<span class="text-xs font-mono text-muted-foreground uppercase tracking-wider">02 //</span>
+						<h2 class="text-lg sm:text-xl font-bold tracking-tight text-foreground">Work Experience</h2>
+					</div>
+					<span class="text-xs font-mono text-muted-foreground shrink-0">
+						{EXPERIENCES.length} Role
+					</span>
+				</div>
+
+				<div class="space-y-4">
+					{EXPERIENCES.map((exp) => (
+						<div class="border border-border bg-card/80 p-5 sm:p-6 space-y-4 transition-colors hover:border-foreground/30">
+							<div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
+								<div class="space-y-1">
+									<h3 class="text-base sm:text-lg font-semibold text-foreground tracking-tight">
+										{exp.role}
+									</h3>
+									<div class="flex flex-wrap items-center gap-2 text-xs font-mono text-muted-foreground">
+										<span class="text-foreground font-medium">{exp.company}</span>
+										<span class="opacity-40">•</span>
+										<span>{exp.location}</span>
+									</div>
+								</div>
+								<div class="shrink-0 self-start">
+									<span class="px-2.5 py-1 text-[11px] font-mono bg-muted/80 text-muted-foreground border border-border">
+										{exp.period}
+									</span>
 								</div>
 							</div>
-							<p class="text-muted-foreground text-sm mb-3">
-								{project.description}
-							</p>
-							<div class="flex flex-wrap gap-2">
-								{project.tech.slice(0, 4).map((tech) => (
-									<span class="text-xs text-muted-foreground">
-										{tech}
-									</span>
+
+							<ul class="space-y-2 text-xs sm:text-sm text-muted-foreground leading-relaxed pl-1">
+								{exp.bullets.map((bullet) => (
+									<li class="flex items-start gap-2">
+										<span class="text-foreground/40 mt-1 shrink-0 font-mono">›</span>
+										<span>{bullet}</span>
+									</li>
+								))}
+							</ul>
+
+							{exp.tech && exp.tech.length > 0 && (
+								<div class="flex flex-wrap gap-1.5 pt-3 border-t border-border/50">
+									{exp.tech.map((t) => (
+										<span class="px-2 py-0.5 text-[11px] font-mono bg-muted/60 text-muted-foreground border border-border/50">
+											{t}
+										</span>
+									))}
+								</div>
+							)}
+						</div>
+					))}
+				</div>
+			</section>
+
+			<!-- Projects Section -->
+			<section class="mb-12 sm:mb-16">
+				<div class="flex items-center justify-between gap-2 mb-4 pb-2 border-b border-border">
+					<div class="flex items-center gap-2">
+						<span class="text-xs font-mono text-muted-foreground uppercase tracking-wider">03 //</span>
+						<h2 class="text-lg sm:text-xl font-bold tracking-tight text-foreground">Selected Work</h2>
+					</div>
+					<span class="text-xs font-mono text-muted-foreground shrink-0">
+						{PROJECTS.length} Systems
+					</span>
+				</div>
+				<ProjectsSection client:load projects={PROJECTS} />
+			</section>
+
+			<!-- Categorized Tech Stack Matrix -->
+			<section class="mb-12 sm:mb-16">
+				<div class="flex items-center justify-between gap-2 mb-4 pb-2 border-b border-border">
+					<div class="flex items-center gap-2">
+						<span class="text-xs font-mono text-muted-foreground uppercase tracking-wider">04 //</span>
+						<h2 class="text-lg sm:text-xl font-bold tracking-tight text-foreground">Tech Stack</h2>
+					</div>
+					<span class="text-xs font-mono text-muted-foreground shrink-0">Segmented Matrix</span>
+				</div>
+
+				<div class="space-y-6">
+					{TECH_CATEGORIES.map((category) => (
+						<div class="space-y-2.5">
+							<h3 class="text-xs font-mono uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+								<span class="w-1.5 h-1.5 bg-muted-foreground/60"></span>
+								<span>{category.domain}</span>
+							</h3>
+							<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-px bg-border p-px">
+								{category.items.map((item) => (
+									<div class="flex items-center gap-2 sm:gap-2.5 p-2.5 sm:p-3 bg-card hover:bg-muted/50 hover:border-foreground/30 transition-all group cursor-default min-w-0">
+										<img
+											src={item.logo}
+											alt={`${item.name} logo`}
+											class={`w-4 h-4 sm:w-5 sm:h-5 shrink-0 opacity-80 group-hover:opacity-100 transition-opacity ${item.darkInvert ? "dark:invert" : ""} dark:brightness-110`}
+											loading="lazy"
+										/>
+										<span class="text-[11px] sm:text-xs font-mono text-foreground/90 group-hover:text-foreground truncate min-w-0">
+											{item.name}
+										</span>
+									</div>
 								))}
 							</div>
 						</div>
@@ -214,88 +237,120 @@ const SKILL_LOGOS = TECH_STACK.flatMap((skill) =>
 				</div>
 			</section>
 
+			<!-- Engineering Capabilities / Skills -->
+			<section class="mb-12 sm:mb-16">
+				<div class="flex items-center gap-2 mb-4 pb-2 border-b border-border">
+					<span class="text-xs font-mono text-muted-foreground uppercase tracking-wider">05 //</span>
+					<h2 class="text-lg sm:text-xl font-bold tracking-tight text-foreground">Core Competencies</h2>
+				</div>
 
-			<!-- Tech Stack -->
-			<section class="mb-12 sm:mb-20">
-				<h2 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Tech Stack</h2>
-				<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-px p-px bg-border">
-					{SKILL_LOGOS.map((item) => (
-						<div class="aspect-square flex flex-col items-center justify-center gap-2 p-2 bg-card">
-							<img
-								src={item.logo}
-								alt={`${item.name} logo`}
-								class={`w-9 h-9 sm:w-10 sm:h-10 opacity-85 transition ${darkInvertLogoSlugs.has(item.slug) ? "dark:invert" : ""} dark:brightness-110`}
-								loading="lazy"
-							/>
-							<span class="text-[10px] sm:text-xs leading-tight text-center text-muted-foreground">
-								{item.name}
-							</span>
+				<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+					{SKILL_DOMAINS.map((domainBlock) => (
+						<div class="border border-border bg-card/80 p-4 sm:p-5 space-y-3 transition-colors hover:border-foreground/30">
+							<h3 class="text-xs font-mono font-semibold uppercase tracking-wider text-foreground">
+								{domainBlock.domain}
+							</h3>
+							<ul class="space-y-2 text-xs font-mono text-muted-foreground">
+								{domainBlock.skills.map((skill) => (
+									<li class="flex items-start gap-2">
+										<span class="text-foreground/40 mt-0.5 shrink-0">›</span>
+										<span>{skill}</span>
+									</li>
+								))}
+							</ul>
 						</div>
 					))}
 				</div>
 			</section>
 
-			<!-- Skills -->
-			<section class="mb-12 sm:mb-20">
-				<h2 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Skills</h2>
-				<ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-muted-foreground">
-					{SKILLS.map((skill) => (
-						<li class="flex items-start gap-2">
-							<span class="mt-[5px] block h-1.5 w-1.5 rounded-full bg-muted-foreground"></span>
-							<span>{skill}</span>
-						</li>
-					))}
-				</ul>
-			</section>
+			<!-- Recognition & Achievements -->
+			<section class="mb-12 sm:mb-16">
+				<div class="flex items-center gap-2 mb-4 pb-2 border-b border-border">
+					<span class="text-xs font-mono text-muted-foreground uppercase tracking-wider">06 //</span>
+					<h2 class="text-lg sm:text-xl font-bold tracking-tight text-foreground">Recognition</h2>
+				</div>
 
-			<!-- Experience/Achievements -->
-			<section class="mb-12 sm:mb-20">
-				<h2 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Recognition</h2>
-				<div class="space-y-4">
+				<div class="space-y-3">
 					{ACHIEVEMENTS.map((achievement) => (
-						<div>
-							<div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4 mb-1">
-								<h3 class="text-sm sm:text-base font-medium text-foreground">
-									{achievement.title}
-								</h3>
-								<span class="text-sm text-muted-foreground">
-									{achievement.date}
-								</span>
+						<div class="border border-border bg-card/80 p-4 sm:p-5 space-y-2 transition-colors hover:border-foreground/30">
+							<div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
+								<div class="flex items-start gap-2.5">
+									<div class="p-1.5 bg-muted/60 border border-border text-foreground shrink-0 mt-0.5">
+										<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+										</svg>
+									</div>
+									<div>
+										<h3 class="text-sm sm:text-base font-semibold text-foreground tracking-tight">
+											{achievement.title}
+										</h3>
+										<p class="text-xs text-muted-foreground mt-1 leading-relaxed">
+											{achievement.description}
+										</p>
+									</div>
+								</div>
+								<div class="flex items-center gap-2 shrink-0 self-start">
+									<span class="px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-muted/80 text-muted-foreground border border-border">
+										{achievement.type}
+									</span>
+									<span class="text-xs font-mono text-muted-foreground">
+										{achievement.date}
+									</span>
+								</div>
 							</div>
-							<p class="text-sm text-muted-foreground">
-								{achievement.description}
-							</p>
 						</div>
 					))}
 				</div>
 			</section>
 
-			<!-- Lab/Interactive -->
-			<section class="mb-12 sm:mb-20">
-				<h2 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Binary Blitz</h2>
+			<!-- Lab / Interactive Arcade -->
+			<section class="mb-12 sm:mb-16">
+				<div class="flex items-center justify-between gap-2 mb-4 pb-2 border-b border-border">
+					<div class="flex items-center gap-2">
+						<span class="text-xs font-mono text-muted-foreground uppercase tracking-wider">07 //</span>
+						<h2 class="text-lg sm:text-xl font-bold tracking-tight text-foreground">Interactive Lab</h2>
+					</div>
+					<span class="text-xs font-mono text-muted-foreground shrink-0">Binary Blitz v1.0</span>
+				</div>
 				<BinaryBlitz client:load />
 			</section>
 
-			<!-- Contact -->
-			<section class="mb-8 sm:mb-12">
-				<h2 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Get in Touch</h2>
-				<p class="text-sm sm:text-base text-muted-foreground mb-4">
-					I'm currently looking for new opportunities. Feel free to reach out if you'd like to work together.
-				</p>
-				<a 
-					href={`mailto:${PERSONAL_INFO.email}`}
-					class="inline-flex items-center gap-2 text-foreground hover:text-muted-foreground transition-colors"
-				>
-					<svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-					{PERSONAL_INFO.email}
-				</a>
+			<!-- Contact / Get in Touch -->
+			<section class="mb-12 border border-border bg-card/80 p-5 sm:p-8 space-y-4 transition-colors hover:border-foreground/30">
+				<div class="space-y-1">
+					<h2 class="text-lg sm:text-xl font-bold tracking-tight text-foreground">
+						Get In Touch
+					</h2>
+					<p class="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+						I’m actively looking for software engineering roles and collaborative projects. Feel free to reach out directly.
+					</p>
+				</div>
+
+				<div class="flex flex-wrap items-center gap-3 pt-2">
+					<a 
+						href={`mailto:${PERSONAL_INFO.email}`}
+						class="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 text-xs font-mono bg-primary text-primary-foreground hover:bg-primary/90 active:translate-y-px transition-all max-w-full"
+					>
+						<svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+						</svg>
+						<span class="truncate">{PERSONAL_INFO.email}</span>
+					</a>
+					<a 
+						href={PERSONAL_INFO.linkedin}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 text-xs font-mono border border-border bg-background hover:bg-muted active:translate-y-px text-foreground transition-all"
+					>
+						<span>Connect on LinkedIn</span>
+					</a>
+				</div>
 			</section>
 
 			<!-- Footer -->
-			<footer class="pt-8 border-t border-border">
-				<p class="text-xs text-muted-foreground text-center">
-					© {currentYear} {PERSONAL_INFO.name}
-				</p>
+			<footer class="pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-muted-foreground text-center sm:text-left">
+				<p>© {currentYear} {PERSONAL_INFO.name}. All rights reserved.</p>
+				<p class="text-[11px] opacity-70">Astro 7 • React 19 • Tailwind v4</p>
 			</footer>
 
 		</div>
