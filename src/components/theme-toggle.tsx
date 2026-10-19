@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Moon, Sun } from "@phosphor-icons/react";
+import { MoonIcon, SunIcon } from "@phosphor-icons/react";
 
 import { Switch } from "@/components/ui/switch";
 
@@ -21,14 +21,14 @@ export default function ThemeToggle() {
 
 	return (
 		<div className="inline-flex items-center gap-2 text-muted-foreground">
-			<Sun className={`size-4 transition-opacity ${isDark ? "opacity-40" : "opacity-100"}`} aria-hidden="true" />
+			<SunIcon className={`size-4 transition-opacity ${isDark ? "opacity-40" : "opacity-100"}`} aria-hidden="true" />
 			<Switch
 				checked={isDark}
 				onCheckedChange={handleCheckedChange}
 				disabled={!isReady}
 				aria-label="Toggle theme"
 			/>
-			<Moon className={`size-4 transition-opacity ${isDark ? "opacity-100" : "opacity-40"}`} aria-hidden="true" />
+			<MoonIcon className={`size-4 transition-opacity ${isDark ? "opacity-100" : "opacity-40"}`} aria-hidden="true" />
 		</div>
 	);
 }
