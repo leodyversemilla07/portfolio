@@ -1,6 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { TerminalWindow, Play, ArrowClockwise, Trophy, Cpu } from "@phosphor-icons/react";
+import { TerminalWindowIcon, PlayIcon, ArrowClockwiseIcon, TrophyIcon, CpuIcon } from "@phosphor-icons/react";
+
+const STORAGE_KEY = "binary-blitz:high-score";
+
+/** Seconds allowed for a round, given the current score. Tightens as the score climbs. */
+const timeLimitFor = (score: number) => Math.max(2, 5 - Math.floor(score / 5));
 
 const BinaryBlitz = () => {
   const [target, setTarget] = useState(0);
@@ -9,74 +14,119 @@ const BinaryBlitz = () => {
   const [timeLeft, setTimeLeft] = useState(0);
   const [gameState, setGameState] = useState<"idle" | "playing" | "lost">("idle");
   const [highScore, setHighScore] = useState(0);
+  const [round, setRound] = useState(0);
 
-  const generateTarget = useCallback(() => {
-    const newTarget = Math.floor(Math.random() * 15) + 1;
-    setTarget(newTarget);
+  // Track the best score of the *previous* run so a tie is not announced as a record.
+  const previousBest = useRef(0);
+
+  // Duration of the current round in seconds, kept in a ref so the timer effect
+  // never has to depend on the ticking `timeLeft` value.
+  const roundDuration = useRef(0);
+
+  // Restore the persisted high score on mount.
+  useEffect(() => {
+    try {
+      const stored = Number(window.localStorage.getItem(STORAGE_KEY) ?? 0);
+      if (Number.isFinite(stored) && stored > 0) setHighScore(stored);
+    } catch {
+      // localStorage may be unavailable (private mode / blocked cookies) — ignore.
+    }
+  }, []);
+
+  const generateTarget = useCallback((nextScore: number) => {
+    const duration = timeLimitFor(nextScore);
+    roundDuration.current = duration;
+    setTarget(Math.floor(Math.random() * 15) + 1);
     setBits([false, false, false, false]);
-    setTimeLeft(Math.max(2, 5 - Math.floor(score / 5))); // Gets faster as score increases
-  }, [score]);
+    setTimeLeft(duration);
+    // A monotonic round counter guarantees the timer restarts even when the
+    // randomly generated target happens to repeat the previous value.
+    setRound((r) => r + 1);
+  }, []);
 
   const startGame = () => {
+    previousBest.current = highScore;
     setScore(0);
     setGameState("playing");
-    generateTarget();
+    generateTarget(0);
   };
 
   const toggleBit = (index: number) => {
     if (gameState !== "playing") return;
-    const newBits = [...bits];
-    newBits[index] = !newBits[index];
-    setBits(newBits);
+    setBits((prev) => prev.map((bit, i) => (i === index ? !bit : bit)));
   };
 
   const currentValue = bits.reduce((acc, bit, idx) => acc + (bit ? Math.pow(2, 3 - idx) : 0), 0);
 
+  // Award a point when the register state matches the target.
   useEffect(() => {
-    if (gameState === "playing" && currentValue === target) {
-      setScore((s) => s + 1);
-      generateTarget();
-    }
-  }, [currentValue, target, gameState, generateTarget]);
+    if (gameState !== "playing" || currentValue !== target) return;
+
+    const nextScore = score + 1;
+    setScore(nextScore);
+    generateTarget(nextScore);
+  }, [currentValue, target, gameState, score, generateTarget]);
+
+  // Deadline-driven timer. The deadline is computed once per round from a ref,
+  // so the interval is created once instead of being torn down on every tick.
+  const deadlineRef = useRef<number | null>(null);
 
   useEffect(() => {
-    let timer: ReturnType<typeof setInterval>;
-    if (gameState === "playing" && timeLeft > 0) {
-      timer = setInterval(() => {
-        setTimeLeft((t) => {
-          if (t <= 0.1) {
-            setGameState("lost");
-            return 0;
-          }
-          return t - 0.1;
-        });
-      }, 100);
-    }
-    return () => clearInterval(timer);
-  }, [gameState, timeLeft]);
+    if (gameState !== "playing") return;
 
+    deadlineRef.current = performance.now() + roundDuration.current * 1000;
+    setTimeLeft(roundDuration.current);
+
+    const timer = window.setInterval(() => {
+      if (deadlineRef.current === null) return;
+      const remaining = (deadlineRef.current - performance.now()) / 1000;
+
+      if (remaining <= 0) {
+        deadlineRef.current = null;
+        setTimeLeft(0);
+        setGameState("lost");
+        return;
+      }
+
+      setTimeLeft(remaining);
+    }, 50);
+
+    return () => {
+      window.clearInterval(timer);
+      deadlineRef.current = null;
+    };
+  }, [gameState, round]);
+
+  // Persist the best score whenever it is beaten.
   useEffect(() => {
-    if (score > highScore) setHighScore(score);
+    if (score <= highScore) return;
+    setHighScore(score);
+    try {
+      window.localStorage.setItem(STORAGE_KEY, String(score));
+    } catch {
+      // Ignore storage failures — the score still works for the current session.
+    }
   }, [score, highScore]);
 
-  const maxTime = Math.max(2, 5 - Math.floor(score / 5));
+  const maxTime = timeLimitFor(score);
   const timeProgress = maxTime > 0 ? (timeLeft / maxTime) * 100 : 0;
+  const isNewRecord = score > previousBest.current && score > 0;
 
   return (
     <div className="border border-border bg-card/80 overflow-hidden transition-colors hover:border-foreground/30">
       {/* Terminal Bar */}
       <div className="flex items-center justify-between px-4 py-2.5 bg-muted/40 border-b border-border text-xs font-mono">
         <div className="flex items-center gap-2 text-foreground/80">
-          <TerminalWindow className="size-4" />
+          <TerminalWindowIcon className="size-4" />
           <span className="font-semibold">lab/binary-blitz.exe</span>
         </div>
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5 text-muted-foreground text-[11px]">
-            <Trophy className="size-3.5" />
+            <TrophyIcon className="size-3.5" />
             <span>High: <strong className="text-foreground">{highScore}</strong></span>
           </div>
           <div className="flex items-center gap-1.5 text-muted-foreground text-[11px]">
-            <Cpu className="size-3.5" />
+            <CpuIcon className="size-3.5" />
             <span>Score: <strong className="text-foreground">{score}</strong></span>
           </div>
         </div>
@@ -102,7 +152,7 @@ const BinaryBlitz = () => {
               size="lg"
               className="font-mono text-xs uppercase tracking-wider px-6 py-2 rounded-none bg-primary text-primary-foreground hover:bg-primary/90 active:translate-y-px transition-all"
             >
-              <Play className="size-3.5 mr-1.5" />
+              <PlayIcon className="size-3.5 mr-1.5" />
               Initialize Challenge
             </Button>
           </div>
@@ -131,6 +181,8 @@ const BinaryBlitz = () => {
                   key={val}
                   type="button"
                   onClick={() => toggleBit(i)}
+                  aria-pressed={bits[i]}
+                  aria-label={`Toggle ${val} bit (current sum ${currentValue})`}
                   className={`flex flex-col items-center justify-center h-20 sm:h-24 border transition-all cursor-pointer select-none rounded-none font-mono active:translate-y-px ${
                     bits[i]
                       ? "bg-foreground text-background border-foreground font-bold shadow-sm"
@@ -157,7 +209,7 @@ const BinaryBlitz = () => {
                 {score} <span className="text-xs font-normal text-muted-foreground uppercase">pts</span>
               </div>
               <p className="text-xs text-muted-foreground">
-                {score >= highScore && score > 0 ? "★ New Personal Record!" : "Good run. Try again to beat your record."}
+                {isNewRecord ? "★ New Personal Record!" : "Good run. Try again to beat your record."}
               </p>
             </div>
             <Button
@@ -166,7 +218,7 @@ const BinaryBlitz = () => {
               variant="outline"
               className="font-mono text-xs uppercase tracking-wider rounded-none border-border hover:bg-muted active:translate-y-px transition-all"
             >
-              <ArrowClockwise className="size-3.5 mr-1.5" />
+              <ArrowClockwiseIcon className="size-3.5 mr-1.5" />
               Rerun Challenge
             </Button>
           </div>
