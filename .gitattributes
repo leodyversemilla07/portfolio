@@ -1,0 +1,10 @@
+# Normalize line endings to LF in the repository and in the working tree.
+# The project is developed on Windows and deployed on Linux, so this keeps
+# diffs free of CRLF/LF churn.
+* text=auto eol=lf
+
+# Keep binary assets untouched.
+*.woff2 binary
+*.png binary
+*.ico binary
+*.pdf binary
