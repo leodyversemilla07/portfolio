@@ -1,27 +1,91 @@
 ---
 import '../styles/global.css';
+import { PERSONAL_INFO, EDUCATION } from '../consts';
 
 interface Props {
 	title?: string;
 	description?: string;
 }
 
-const { 
-	title = "Leodyver S. Semilla | Portfolio",
-	description = "Full-Stack Developer specializing in blockchain and secure software."
+const {
+	title = `${PERSONAL_INFO.name} | Portfolio`,
+	description = `${PERSONAL_INFO.name} — ${PERSONAL_INFO.role} building practical, real-world software across backend systems, developer tooling, and frontend interfaces.`
 } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL('/og-image.png', Astro.site).href;
+
+// "Leodyver S. Semilla" -> given name "Leodyver", family name "Semilla" (middle initial ignored)
+const nameParts = PERSONAL_INFO.name.split(/\s+/);
+const givenName = nameParts[0];
+const familyName =
+	nameParts.length > 2 && nameParts[nameParts.length - 2].endsWith(".")
+		? nameParts[nameParts.length - 1]
+		: nameParts.slice(1).join(" ");
+
+const socialLinks = [
+	PERSONAL_INFO.github,
+	PERSONAL_INFO.linkedin,
+	PERSONAL_INFO.x
+].filter(Boolean);
+
+const structuredData = {
+	'@context': 'https://schema.org',
+	'@type': 'Person',
+	name: PERSONAL_INFO.name,
+	jobTitle: PERSONAL_INFO.role,
+	description,
+	url: canonicalURL,
+	email: `mailto:${PERSONAL_INFO.email}`,
+	image: ogImage,
+	address: {
+		'@type': 'PostalAddress',
+		addressLocality: PERSONAL_INFO.location
+	},
+	alumniOf: {
+		'@type': 'EducationalOrganization',
+		name: EDUCATION.school
+	},
+	sameAs: socialLinks
+};
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 
 		<title>{title}</title>
 		<meta name="description" content={description} />
+		<link rel="canonical" href={canonicalURL} />
+		<meta name="author" content={PERSONAL_INFO.name} />
+
+		<!-- Open Graph -->
+		<meta property="og:type" content="profile" />
+		<meta property="og:site_name" content={PERSONAL_INFO.name} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:image" content={ogImage} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:image:alt" content={`${PERSONAL_INFO.name} — ${PERSONAL_INFO.role}`} />
+		<meta property="profile:first_name" content={givenName} />
+		<meta property="profile:last_name" content={familyName} />
+
+		<!-- Twitter -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImage} />
+
+		<meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+		<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+
+		<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
 		<script is:inline>
 			const isDark = localStorage.getItem("theme") === "dark" || 
@@ -33,7 +97,7 @@ const {
 		<!-- Subtle Technical Dot-Grid Layer with Radial Vignette Fade -->
 		<div 
 			class="fixed inset-0 pointer-events-none z-0 opacity-60 dark:opacity-30" 
-			style="background-image: radial-gradient(var(--color-foreground) 1px, transparent 1px); background-size: 24px 24px; mask-image: radial-gradient(ellipse 70% 60% at 50% 10%, black 40%, transparent 95%);"
+			style="background-image: radial-gradient(var(--color-foreground) 1px, transparent 1px); background-size: 24px 24px; -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 10%, black 40%, transparent 95%); mask-image: radial-gradient(ellipse 70% 60% at 50% 10%, black 40%, transparent 95%);"
 			aria-hidden="true"
 		></div>
 

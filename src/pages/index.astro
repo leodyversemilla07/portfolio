@@ -2,11 +2,13 @@
 import Layout from "../layouts/layout.astro";
 import { 
 	PERSONAL_INFO, 
+	ABOUT_PARAGRAPHS,
 	EXPERIENCES,
 	TECH_CATEGORIES, 
 	SKILL_DOMAINS, 
 	PROJECTS, 
-	ACHIEVEMENTS 
+	ACHIEVEMENTS,
+	EDUCATION 
 } from "../consts";
 import ThemeToggle from "@/components/theme-toggle";
 import BinaryBlitz from "@/components/binary-blitz";
@@ -17,9 +19,9 @@ const currentYear = new Date().getFullYear();
 
 <Layout
 	title={`${PERSONAL_INFO.name} | ${PERSONAL_INFO.role}`}
-	description={`${PERSONAL_INFO.name} - ${PERSONAL_INFO.role}`}
+	description={PERSONAL_INFO.metaDescription}
 >
-	<main class="min-h-screen bg-background text-foreground selection:bg-foreground selection:text-background">
+	<main class="min-h-screen bg-background text-foreground">
 		<div class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-16">
 			
 			<!-- Terminal Header / System Status Bar -->
@@ -118,15 +120,38 @@ const currentYear = new Date().getFullYear();
 					<h2 class="text-lg sm:text-xl font-bold tracking-tight text-foreground">About</h2>
 				</div>
 				<div class="space-y-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
-					<p>
-						I’m an aspiring full-stack software engineer focused on building practical, real-world products across the stack, from backend systems and developer tooling to frontend interfaces and UI/UX.
-					</p>
-					<p>
-						My capstone project, <strong class="text-foreground font-semibold">ProcuChain</strong>, is a blockchain-powered document management system used by Bids and Awards Committees to improve transparency and document integrity in procurement workflows.
-					</p>
-					<p>
-						I’m also active in cybersecurity and competitive problem-solving, earning the highest individual regional score in <strong class="text-foreground font-semibold">Hack4Gov 3</strong> and qualifying for the national finals through a wildcard slot. Outside of projects, I contribute to open source—including <a href="https://github.com/mihonapp/mihon" target="_blank" rel="noopener noreferrer" class="underline text-foreground underline-offset-4 hover:opacity-80">Mihon</a>, explore CTF challenges, and continuously refine my engineering craft.
-					</p>
+					{ABOUT_PARAGRAPHS.map((paragraph) => (
+						<p>
+							{paragraph.parts.map((part) => {
+								if (typeof part === "string") return part;
+								if (part.href) {
+									return (
+										<a
+											href={part.href}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="underline text-foreground underline-offset-4 hover:opacity-80"
+										>
+											{part.text}
+										</a>
+									);
+								}
+								return <strong class="text-foreground font-semibold">{part.text}</strong>;
+							})}
+						</p>
+					))}
+				</div>
+
+				<!-- Currently / Interests -->
+				<div class="grid grid-cols-1 sm:grid-cols-2 gap-px bg-border p-px mt-5">
+					<div class="bg-card p-3 space-y-1.5">
+						<span class="text-[10px] font-mono uppercase tracking-wider text-muted-foreground/70">Currently</span>
+						<p class="text-xs font-mono text-foreground/90">{PERSONAL_INFO.currentlyLearning}</p>
+					</div>
+					<div class="bg-card p-3 space-y-1.5">
+						<span class="text-[10px] font-mono uppercase tracking-wider text-muted-foreground/70">Interests</span>
+						<p class="text-xs font-mono text-foreground/90">{PERSONAL_INFO.hobbies.join(" • ")}</p>
+					</div>
 				</div>
 			</section>
 
@@ -138,7 +163,7 @@ const currentYear = new Date().getFullYear();
 						<h2 class="text-lg sm:text-xl font-bold tracking-tight text-foreground">Work Experience</h2>
 					</div>
 					<span class="text-xs font-mono text-muted-foreground shrink-0">
-						{EXPERIENCES.length} Role
+						{EXPERIENCES.length} {EXPERIENCES.length === 1 ? "Role" : "Roles"}
 					</span>
 				</div>
 
@@ -186,25 +211,69 @@ const currentYear = new Date().getFullYear();
 				</div>
 			</section>
 
-			<!-- Projects Section -->
+			<!-- Education Section -->
 			<section class="mb-12 sm:mb-16">
 				<div class="flex items-center justify-between gap-2 mb-4 pb-2 border-b border-border">
 					<div class="flex items-center gap-2">
 						<span class="text-xs font-mono text-muted-foreground uppercase tracking-wider">03 //</span>
+						<h2 class="text-lg sm:text-xl font-bold tracking-tight text-foreground">Education</h2>
+					</div>
+					<span class="text-xs font-mono text-muted-foreground shrink-0">
+						{EDUCATION.period}
+					</span>
+				</div>
+
+				<div class="border border-border bg-card/80 p-5 sm:p-6 space-y-4 transition-colors hover:border-foreground/30">
+					<div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
+						<div class="space-y-1">
+							<h3 class="text-base sm:text-lg font-semibold text-foreground tracking-tight">
+								{EDUCATION.degree}
+							</h3>
+							<div class="flex flex-wrap items-center gap-2 text-xs font-mono text-muted-foreground">
+								<span class="text-foreground font-medium">{EDUCATION.school}</span>
+								<span class="opacity-40">•</span>
+								<span>{EDUCATION.location}</span>
+							</div>
+						</div>
+					</div>
+
+					{EDUCATION.honor && (
+						<p class="text-xs sm:text-sm text-muted-foreground leading-relaxed pl-5 border-l-2 border-border">
+							{EDUCATION.honor}
+						</p>
+					)}
+
+					{EDUCATION.coursework && EDUCATION.coursework.length > 0 && (
+						<div class="flex flex-wrap gap-1.5 pt-3 border-t border-border/50">
+							{EDUCATION.coursework.map((course) => (
+								<span class="px-2 py-0.5 text-[11px] font-mono bg-muted/60 text-muted-foreground border border-border/50">
+									{course}
+								</span>
+							))}
+						</div>
+					)}
+				</div>
+			</section>
+
+			<!-- Projects Section -->
+			<section class="mb-12 sm:mb-16">
+				<div class="flex items-center justify-between gap-2 mb-4 pb-2 border-b border-border">
+					<div class="flex items-center gap-2">
+						<span class="text-xs font-mono text-muted-foreground uppercase tracking-wider">04 //</span>
 						<h2 class="text-lg sm:text-xl font-bold tracking-tight text-foreground">Selected Work</h2>
 					</div>
 					<span class="text-xs font-mono text-muted-foreground shrink-0">
 						{PROJECTS.length} Systems
 					</span>
 				</div>
-				<ProjectsSection client:load projects={PROJECTS} />
+				<ProjectsSection client:visible projects={PROJECTS} />
 			</section>
 
 			<!-- Categorized Tech Stack Matrix -->
 			<section class="mb-12 sm:mb-16">
 				<div class="flex items-center justify-between gap-2 mb-4 pb-2 border-b border-border">
 					<div class="flex items-center gap-2">
-						<span class="text-xs font-mono text-muted-foreground uppercase tracking-wider">04 //</span>
+						<span class="text-xs font-mono text-muted-foreground uppercase tracking-wider">05 //</span>
 						<h2 class="text-lg sm:text-xl font-bold tracking-tight text-foreground">Tech Stack</h2>
 					</div>
 					<span class="text-xs font-mono text-muted-foreground shrink-0">Segmented Matrix</span>
@@ -240,7 +309,7 @@ const currentYear = new Date().getFullYear();
 			<!-- Engineering Capabilities / Skills -->
 			<section class="mb-12 sm:mb-16">
 				<div class="flex items-center gap-2 mb-4 pb-2 border-b border-border">
-					<span class="text-xs font-mono text-muted-foreground uppercase tracking-wider">05 //</span>
+					<span class="text-xs font-mono text-muted-foreground uppercase tracking-wider">06 //</span>
 					<h2 class="text-lg sm:text-xl font-bold tracking-tight text-foreground">Core Competencies</h2>
 				</div>
 
@@ -266,7 +335,7 @@ const currentYear = new Date().getFullYear();
 			<!-- Recognition & Achievements -->
 			<section class="mb-12 sm:mb-16">
 				<div class="flex items-center gap-2 mb-4 pb-2 border-b border-border">
-					<span class="text-xs font-mono text-muted-foreground uppercase tracking-wider">06 //</span>
+					<span class="text-xs font-mono text-muted-foreground uppercase tracking-wider">07 //</span>
 					<h2 class="text-lg sm:text-xl font-bold tracking-tight text-foreground">Recognition</h2>
 				</div>
 
@@ -307,12 +376,12 @@ const currentYear = new Date().getFullYear();
 			<section class="mb-12 sm:mb-16">
 				<div class="flex items-center justify-between gap-2 mb-4 pb-2 border-b border-border">
 					<div class="flex items-center gap-2">
-						<span class="text-xs font-mono text-muted-foreground uppercase tracking-wider">07 //</span>
+						<span class="text-xs font-mono text-muted-foreground uppercase tracking-wider">08 //</span>
 						<h2 class="text-lg sm:text-xl font-bold tracking-tight text-foreground">Interactive Lab</h2>
 					</div>
 					<span class="text-xs font-mono text-muted-foreground shrink-0">Binary Blitz v1.0</span>
 				</div>
-				<BinaryBlitz client:load />
+				<BinaryBlitz client:visible />
 			</section>
 
 			<!-- Contact / Get in Touch -->

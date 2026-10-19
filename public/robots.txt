@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://http://leodyver-dev.vercel.app/sitemap-index.xml
